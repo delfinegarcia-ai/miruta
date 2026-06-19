@@ -6,165 +6,72 @@
 <title>MiRuta — Panel del Conductor</title>
 <style>
   :root {
-    --negro: #0D0D0D;
-    --carbon: #1A1A1A;
-    --plata: #2A2A2A;
-    --acento: #F5C518;
-    --acento-suave: #F5C51820;
-    --verde: #22C55E;
-    --rojo: #EF4444;
-    --texto: #F0F0F0;
-    --muted: #888;
-    --borde: #333;
-    --radio: 14px;
+    --negro: #0D0D0D; --carbon: #1A1A1A; --plata: #2A2A2A;
+    --acento: #F5C518; --acento-suave: #F5C51820;
+    --verde: #22C55E; --rojo: #EF4444;
+    --texto: #F0F0F0; --muted: #888; --borde: #333; --radio: 14px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--negro); color: var(--texto);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh; padding-bottom: 80px;
-  }
-
-  .header {
-    background: var(--carbon); border-bottom: 1px solid var(--borde);
-    padding: 14px 18px 10px; position: sticky; top: 0; z-index: 100;
-  }
+  body { background: var(--negro); color: var(--texto); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+  .header { background: var(--carbon); border-bottom: 1px solid var(--borde); padding: 14px 18px 10px; position: sticky; top: 0; z-index: 100; }
   .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
   .logo { font-size: 20px; font-weight: 800; color: var(--acento); letter-spacing: -0.5px; }
   .logo span { color: var(--texto); }
   .reloj { font-size: 12px; color: var(--muted); }
   .subtitulo { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-
-  .tabs {
-    display: flex; background: var(--carbon);
-    border-bottom: 1px solid var(--borde);
-    position: sticky; top: 60px; z-index: 99;
-  }
-  .tab {
-    flex: 1; padding: 11px 6px; text-align: center; font-size: 12px;
-    font-weight: 700; color: var(--muted); cursor: pointer;
-    border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.5px;
-  }
+  .tabs { display: flex; background: var(--carbon); border-bottom: 1px solid var(--borde); position: sticky; top: 60px; z-index: 99; }
+  .tab { flex: 1; padding: 11px 6px; text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.5px; }
   .tab.active { color: var(--acento); border-bottom-color: var(--acento); }
-
   .pantalla { display: none; padding: 14px 14px 0; }
   .pantalla.visible { display: block; }
-
-  .card {
-    background: var(--carbon); border: 1px solid var(--borde);
-    border-radius: var(--radio); padding: 14px; margin-bottom: 12px;
-  }
-  .card-titulo {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--acento); margin-bottom: 12px;
-  }
-
-  /* CAMPO CON AUTOCOMPLETADO */
+  .card { background: var(--carbon); border: 1px solid var(--borde); border-radius: var(--radio); padding: 14px; margin-bottom: 12px; }
+  .card-titulo { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--acento); margin-bottom: 12px; }
   .campo-auto { position: relative; margin-bottom: 10px; }
-  .campo-auto label {
-    display: block; font-size: 11px; color: var(--muted);
-    margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .campo-auto input {
-    width: 100%; background: var(--plata); border: 1px solid var(--borde);
-    border-radius: 10px; padding: 13px 14px; color: var(--texto);
-    font-size: 16px; font-family: inherit; outline: none; -webkit-appearance: none;
-    transition: border-color 0.15s;
-  }
+  .campo-auto label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .campo-auto input { width: 100%; background: var(--plata); border: 1px solid var(--borde); border-radius: 10px; padding: 13px 14px; color: var(--texto); font-size: 16px; font-family: inherit; outline: none; -webkit-appearance: none; transition: border-color 0.15s; }
   .campo-auto input:focus { border-color: var(--acento); }
-  .dropdown {
-    position: absolute; top: calc(100% + 3px); left: 0; right: 0;
-    background: #1e1e1e; border: 1px solid var(--acento);
-    border-radius: 10px; z-index: 999;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-    overflow: hidden; display: none;
-  }
+  .dropdown { position: absolute; top: calc(100% + 3px); left: 0; right: 0; background: #1e1e1e; border: 1px solid var(--acento); border-radius: 10px; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.7); overflow: hidden; display: none; }
   .dropdown.visible { display: block; }
-  .drop-item {
-    padding: 11px 14px; border-bottom: 1px solid #2a2a2a;
-    cursor: pointer; display: flex; align-items: flex-start; gap: 10px;
-  }
+  .drop-item { padding: 11px 14px; border-bottom: 1px solid #2a2a2a; cursor: pointer; }
   .drop-item:last-child { border-bottom: none; }
-  .drop-item:active { background: var(--acento-suave); }
-  .drop-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+  .drop-item:active, .drop-item:hover { background: var(--acento-suave); }
   .drop-nombre { font-size: 14px; font-weight: 600; color: var(--texto); line-height: 1.3; }
   .drop-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .drop-estado { padding: 12px 14px; font-size: 13px; color: var(--muted); text-align: center; }
-
-  /* BADGE DE RUTA */
-  .badge-ruta {
-    background: var(--plata); border-radius: 8px; padding: 9px 12px;
-    margin-bottom: 10px; font-size: 13px; font-weight: 700;
-    color: var(--acento); text-align: center; display: none;
-  }
+  .badge-ruta { background: var(--plata); border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; font-size: 13px; font-weight: 700; color: var(--acento); text-align: center; display: none; }
   .badge-ruta.visible { display: block; }
-
-  /* CAMPO SIMPLE */
   .campo { margin-bottom: 10px; }
-  .campo label {
-    display: block; font-size: 11px; color: var(--muted);
-    margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .campo input, .campo select {
-    width: 100%; background: var(--plata); border: 1px solid var(--borde);
-    border-radius: 10px; padding: 13px 14px; color: var(--texto);
-    font-size: 16px; font-family: inherit; outline: none; -webkit-appearance: none;
-    transition: border-color 0.15s;
-  }
+  .campo label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .campo input, .campo select { width: 100%; background: var(--plata); border: 1px solid var(--borde); border-radius: 10px; padding: 13px 14px; color: var(--texto); font-size: 16px; font-family: inherit; outline: none; -webkit-appearance: none; transition: border-color 0.15s; }
   .campo input:focus, .campo select:focus { border-color: var(--acento); }
   .campo select option { background: var(--carbon); }
-
-  /* RESULTADO */
-  .resultado-box {
-    background: var(--acento-suave); border: 1px solid var(--acento);
-    border-radius: var(--radio); padding: 16px; margin-top: 10px; display: none;
-  }
+  .resultado-box { background: var(--acento-suave); border: 1px solid var(--acento); border-radius: var(--radio); padding: 16px; margin-top: 10px; display: none; }
   .resultado-box.visible { display: block; }
-  .precio-grande {
-    font-size: 30px; font-weight: 900; color: var(--acento);
-    text-align: center; padding: 10px 0 2px; letter-spacing: -1px;
-  }
+  .precio-grande { font-size: 30px; font-weight: 900; color: var(--acento); text-align: center; padding: 10px 0 2px; letter-spacing: -1px; }
   .precio-label { text-align: center; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
   .precio-obj { font-size: 21px; font-weight: 700; color: var(--verde); text-align: center; padding: 3px 0; }
   .precio-obj-label { text-align: center; font-size: 11px; color: var(--verde); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
   .sep { height: 1px; background: #F5C51830; margin: 10px 0; }
   .fila { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; }
-  .fila .et { color: var(--muted); }
-  .fila .vl { font-weight: 700; }
+  .fila .et { color: var(--muted); } .fila .vl { font-weight: 700; }
   .alerta { border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: 13px; line-height: 1.5; }
   .av { background: #22C55E20; border: 1px solid #22C55E50; color: #4ade80; }
   .ar { background: #EF444420; border: 1px solid #EF444450; color: #f87171; }
   .aa { background: #F5C51820; border: 1px solid #F5C51850; color: #fde047; }
-
-  /* TOGGLE PLATAFORMA */
   .toggle { display: flex; background: var(--plata); border-radius: 10px; padding: 3px; margin-bottom: 14px; }
-  .tog-btn {
-    flex: 1; padding: 10px; border-radius: 8px; text-align: center;
-    font-size: 13px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.2s;
-  }
+  .tog-btn { flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.2s; }
   .tog-btn.uber.active { background: #111; color: white; }
   .tog-btn.indrive.active { background: #00b14f; color: white; }
-
-  /* BOTONES */
-  .btn {
-    width: 100%; padding: 14px; border-radius: var(--radio);
-    font-size: 15px; font-weight: 700; cursor: pointer; border: none;
-    font-family: inherit; transition: opacity 0.15s;
-  }
+  .btn { width: 100%; padding: 14px; border-radius: var(--radio); font-size: 15px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.15s; }
   .btn:active { opacity: 0.75; }
   .btn-gold { background: var(--acento); color: #000; }
   .btn-verde { background: var(--verde); color: #000; }
   .btn-rojo { background: var(--rojo); color: white; margin-top: 8px; }
-
-  /* STATS */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
   .stat { background: var(--plata); border-radius: var(--radio); padding: 13px; text-align: center; }
   .stat-n { font-size: 21px; font-weight: 900; color: var(--acento); letter-spacing: -0.5px; }
   .stat-l { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-  .sv .stat-n { color: var(--verde); }
-  .sr .stat-n { color: var(--rojo); }
-
-  /* LISTA */
+  .sv .stat-n { color: var(--verde); } .sr .stat-n { color: var(--rojo); }
   .vitem { background: var(--plata); border-radius: 10px; padding: 11px 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
   .vplat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
   .vplat.uber { color: #aaa; } .vplat.indrive { color: #00b14f; }
@@ -201,24 +108,25 @@
       <div class="tog-btn uber active" id="btn-uber" onclick="setPlat('calc','uber')">🚗 Uber</div>
       <div class="tog-btn indrive" id="btn-indrive" onclick="setPlat('calc','indrive')">🟢 inDrive</div>
     </div>
-
     <div class="campo-auto">
       <label>Origen</label>
       <input type="text" id="c-origen" placeholder="Ej: Naco, San Pedro, Higüey..." autocomplete="off"
-        oninput="buscar(this,'dd-c-origen','c')" onblur="cerrarDespues('dd-c-origen')">
+        oninput="buscar(this,'dd-c-origen','c',true)" onblur="cerrarDespues('dd-c-origen')">
       <div class="dropdown" id="dd-c-origen"></div>
     </div>
-
     <div class="campo-auto">
       <label>Destino</label>
-      <input type="text" id="c-destino" placeholder="Ej: Las Américas, Bávaro..." autocomplete="off"
-        oninput="buscar(this,'dd-c-destino','c')" onblur="cerrarDespues('dd-c-destino')">
+      <input type="text" id="c-destino" placeholder="Ej: La Romana, Bávaro, Santiago..." autocomplete="off"
+        oninput="buscar(this,'dd-c-destino','c',false)" onblur="cerrarDespues('dd-c-destino')">
       <div class="dropdown" id="dd-c-destino"></div>
     </div>
-
     <div class="badge-ruta" id="badge-c">📍 —</div>
-
-    <div class="campo" id="campo-surge" style="display:none">
+    <div class="badge-ruta" id="badge-peaje-c" style="display:none;background:#F5C51815;border:1px solid #F5C51840;color:#fde047;">🛣️ Peaje: —</div>
+    <div class="campo">
+      <label>Peaje (RD$) — editable</label>
+      <input type="number" id="c-peaje" placeholder="0" inputmode="numeric" min="0" value="0">
+    </div>
+    <div id="campo-surge" class="campo" style="display:none">
       <label>¿Hay surge?</label>
       <select id="surge">
         <option value="1">Sin surge (1.0x)</option>
@@ -228,30 +136,27 @@
         <option value="2.5">Muy alto (2.5x)</option>
       </select>
     </div>
-
-    <!-- Campos manuales de respaldo -->
     <div style="display:flex;gap:8px">
       <div class="campo" style="flex:1">
         <label>Km (respaldo)</label>
-        <input type="number" id="c-km" placeholder="—" inputmode="decimal" step="0.1" min="0">
+        <input type="number" id="c-km" placeholder="Auto" inputmode="decimal" step="0.1" min="0">
       </div>
       <div class="campo" style="flex:1">
-        <label>Min (respaldo)</label>
-        <input type="number" id="c-min" placeholder="—" inputmode="numeric" min="0">
+        <label>Min (respaldo) <span id="c-min-fmt" style="color:var(--acento);font-weight:700;"></span></label>
+        <input type="number" id="c-min" placeholder="Auto" inputmode="numeric" min="0" oninput="actualizarFmt('c-min','c-min-fmt')">
       </div>
     </div>
-
     <button class="btn btn-gold" onclick="calcular()">Calcular precio</button>
   </div>
-
   <div id="resultado" class="resultado-box">
-    <div class="precio-grande" id="r-min">RD$0</div>
-    <div class="precio-label" id="r-min-lbl">—</div>
+    <div class="precio-grande" id="r-tarifa">RD$0</div>
+    <div class="precio-label" id="r-tarifa-lbl">—</div>
     <div class="precio-obj" id="r-obj">RD$0</div>
     <div class="precio-obj-label" id="r-obj-lbl">—</div>
     <div class="sep"></div>
     <div class="fila"><span class="et">Costo gas</span><span class="vl" id="r-gas">—</span></div>
     <div class="fila"><span class="et">Desgaste</span><span class="vl" id="r-desg">—</span></div>
+    <div class="fila"><span class="et">Peaje</span><span class="vl" id="r-peaje-lbl">—</span></div>
     <div class="fila"><span class="et">Costo total</span><span class="vl" id="r-ctotal">—</span></div>
     <div class="fila"><span class="et">Ganancia neta</span><span class="vl" id="r-neto" style="color:var(--verde)">—</span></div>
     <div id="r-alerta"></div>
@@ -266,39 +171,38 @@
       <div class="tog-btn uber active" id="rbtn-uber" onclick="setPlat('reg','uber')">🚗 Uber</div>
       <div class="tog-btn indrive" id="rbtn-indrive" onclick="setPlat('reg','indrive')">🟢 inDrive</div>
     </div>
-
     <div class="campo-auto">
       <label>Origen</label>
       <input type="text" id="r-origen" placeholder="Ej: Naco, San Pedro..." autocomplete="off"
-        oninput="buscar(this,'dd-r-origen','r')" onblur="cerrarDespues('dd-r-origen')">
+        oninput="buscar(this,'dd-r-origen','r',true)" onblur="cerrarDespues('dd-r-origen')">
       <div class="dropdown" id="dd-r-origen"></div>
     </div>
-
     <div class="campo-auto">
       <label>Destino</label>
       <input type="text" id="r-destino" placeholder="Ej: Higüey, La Romana..." autocomplete="off"
-        oninput="buscar(this,'dd-r-destino','r')" onblur="cerrarDespues('dd-r-destino')">
+        oninput="buscar(this,'dd-r-destino','r',false)" onblur="cerrarDespues('dd-r-destino')">
       <div class="dropdown" id="dd-r-destino"></div>
     </div>
-
     <div class="badge-ruta" id="badge-r">📍 —</div>
-
     <div style="display:flex;gap:8px">
       <div class="campo" style="flex:1">
         <label>Km</label>
         <input type="number" id="r-km" placeholder="Auto" inputmode="decimal" step="0.1" min="0">
       </div>
       <div class="campo" style="flex:1">
-        <label>Minutos</label>
-        <input type="number" id="r-min" placeholder="Auto" inputmode="numeric" min="0">
+        <label>Minutos <span id="r-min-fmt" style="color:var(--acento);font-weight:700;"></span></label>
+        <input type="number" id="r-min" placeholder="Auto" inputmode="numeric" min="0" oninput="actualizarFmt('r-min','r-min-fmt')">
       </div>
     </div>
-
+    <div class="badge-ruta" id="badge-peaje-r" style="display:none;background:#F5C51815;border:1px solid #F5C51840;color:#fde047;">🛣️ Peaje: —</div>
+    <div class="campo">
+      <label>Peaje (RD$) — editable</label>
+      <input type="number" id="r-peaje" placeholder="0" inputmode="numeric" min="0" value="0">
+    </div>
     <div class="campo">
       <label>Precio cobrado (RD$)</label>
       <input type="number" id="r-precio" placeholder="Ej: 450" inputmode="numeric" min="0">
     </div>
-
     <button class="btn btn-verde" onclick="guardar()">+ Guardar viaje</button>
   </div>
 </div>
@@ -320,24 +224,66 @@
 
 <script>
 const CFG = {
-  rendKmL: 7.7,
-  glpL: 137.2 / 3.785,
-  desgKm: 2.5,
-  comUber: 0.27,
-  baseUber: 40,
-  kmUber: 28,
-  minUber: 8,
+  rendKmL: 7.7, glpL: 137.2 / 3.785, desgKm: 2.5,
+  comUber: 0.27, baseUber: 40, kmUber: 28, minUber: 8,
 };
+
+const PEAJES = [
+  { orig: ['santo domingo','sd'], dest: ['san pedro','spm','macoris','macor'], monto: 100 },
+  { orig: ['san pedro','spm','macoris','macor'], dest: ['la romana','romana'], monto: 100 },
+  { orig: ['santo domingo','sd'], dest: ['la romana','romana'], monto: 200 },
+  { orig: ['san pedro','spm','macoris','macor'], dest: ['punta cana','bavaro','bavar','higuey','higue'], monto: 300 },
+  { orig: ['santo domingo','sd'], dest: ['punta cana','bavaro','bavar','higuey','higue'], monto: 400 },
+  { orig: ['la romana','romana'], dest: ['punta cana','bavaro','bavar','higuey','higue'], monto: 200 },
+];
+
+function normStr(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+function detectarPeaje(origen, destino) {
+  const o = normStr(origen);
+  const d = normStr(destino);
+  for (const r of PEAJES) {
+    const mO = r.orig.some(k => o.includes(k));
+    const mD = r.dest.some(k => d.includes(k));
+    const mRev = r.dest.some(k => o.includes(k)) && r.orig.some(k => d.includes(k));
+    if ((mO && mD) || mRev) return r.monto;
+  }
+  return 0;
+}
+
+function mostrarPeaje(ctx, origen, destino) {
+  const monto = detectarPeaje(origen, destino);
+  const badge = document.getElementById('badge-peaje-' + ctx);
+  const input = document.getElementById(ctx === 'c' ? 'c-peaje' : 'r-peaje');
+  if (monto > 0) {
+    badge.textContent = '\u{1F6E3} Peaje detectado: RD$' + monto + ' (editable)';
+    badge.style.display = 'block';
+    input.value = monto;
+  } else {
+    badge.style.display = 'none';
+    input.value = 0;
+  }
+}
+
+function fmtMin(min) {
+  if (!min || min < 60) return Math.round(min) + ' min';
+  const h = Math.floor(min / 60);
+  const m = Math.round(min % 60);
+  return m > 0 ? h + 'h ' + m + 'min' : h + 'h';
+}
+
+function actualizarFmt(inputId, fmtId) {
+  const val = parseFloat(document.getElementById(inputId).value);
+  document.getElementById(fmtId).textContent = val > 0 ? fmtMin(val) : '';
+}
 
 let pCalc = 'uber', pReg = 'uber';
 let timers = {};
-let coords = {
-  c: { origen: null, destino: null },
-  r: { origen: null, destino: null }
-};
-
-// Persistencia
+let coords = { c: { origen: null, destino: null }, r: { origen: null, destino: null } };
 let viajes = [];
+
 try {
   const saved = JSON.parse(localStorage.getItem('v') || '[]');
   const f = localStorage.getItem('f');
@@ -346,7 +292,6 @@ try {
   if (f !== hoy) { localStorage.setItem('v','[]'); localStorage.setItem('f', hoy); }
 } catch(e) {}
 
-// Reloj
 function tic() {
   const a = new Date();
   document.getElementById('reloj').textContent =
@@ -355,7 +300,6 @@ function tic() {
 }
 tic(); setInterval(tic, 30000);
 
-// Tabs
 function tab(id) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('visible'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -366,7 +310,6 @@ function tab(id) {
   if(id==='resumen') renderResumen();
 }
 
-// Plataforma
 function setPlat(ctx, p) {
   if(ctx==='calc') {
     pCalc = p;
@@ -381,95 +324,82 @@ function setPlat(ctx, p) {
   }
 }
 
-// ============ AUTOCOMPLETADO ============
 function cerrarDespues(id) {
-  setTimeout(() => { const d = document.getElementById(id); if(d) d.classList.remove('visible'); }, 200);
+  setTimeout(() => { document.getElementById(id).classList.remove('visible'); }, 250);
 }
 
-async function buscar(input, ddId, ctx) {
+async function buscar(input, ddId, ctx, esOrigen) {
   const q = input.value.trim();
   const dd = document.getElementById(ddId);
-  if (q.length < 2) { dd.classList.remove('visible'); return; }
+  if (q.length < 2) { dd.classList.remove('visible'); dd.innerHTML = ''; return; }
 
   clearTimeout(timers[ddId]);
   timers[ddId] = setTimeout(async () => {
     dd.innerHTML = '<div class="drop-estado">🔍 Buscando...</div>';
     dd.classList.add('visible');
-
     try {
-      // Photon: más rápido que Nominatim, centrado en RD, sin restricción de ciudad
-      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&lang=es&bbox=-72.0,17.4,-68.3,20.1`;
-      const res = await fetch(url);
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=do&format=json&addressdetails=1&limit=6&accept-language=es`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
-      const items = (data.features || []).filter(f => {
-        const c = f.properties.country;
-        return !c || c.toLowerCase().includes('dominican') || c.toLowerCase().includes('república');
-      });
-
-      if (!items.length) {
-        dd.innerHTML = '<div class="drop-estado">Sin resultados — intenta ser más específico</div>';
+      if (!Array.isArray(data) || data.length === 0) {
+        dd.innerHTML = '<div class="drop-estado">❌ Sin resultados — prueba agregar la ciudad<br><small>Ej: "Miramar Santo Domingo"</small></div>';
         return;
       }
-
-      const esOrigen = input.id.includes('origen');
-      dd.innerHTML = items.map(f => {
-        const p = f.properties;
-        const nombre = p.name || p.street || q;
-        const ciudad = [p.city, p.state].filter(Boolean).join(', ');
-        const lat = f.geometry.coordinates[1];
-        const lon = f.geometry.coordinates[0];
-        return `<div class="drop-item" onmousedown="elegir('${input.id}','${ddId}','${ctx}','${esOrigen}',${lat},${lon},'${nombre.replace(/'/g,"\\'")}','${ciudad.replace(/'/g,"\\'")}')">
-          <span class="drop-icon">${esOrigen ? '🔵' : '🔴'}</span>
-          <div>
-            <div class="drop-nombre">${nombre}</div>
-            ${ciudad ? `<div class="drop-sub">${ciudad}</div>` : ''}
-          </div>
+      dd.innerHTML = data.map(item => {
+        const a = item.address || {};
+        const lat = parseFloat(item.lat);
+        const lon = parseFloat(item.lon);
+        const nombre = a.neighbourhood || a.suburb || a.road || a.amenity || a.shop || a.building || item.display_name.split(',')[0];
+        const sub = [a.city || a.town || a.village || a.county, a.state].filter(Boolean).join(', ');
+        const nSafe = nombre.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        const sSafe = sub.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return `<div class="drop-item" onmousedown="elegir('${input.id}','${ddId}','${ctx}',${esOrigen},${lat},${lon},'${nSafe}','${sSafe}')">
+          <div class="drop-nombre">${nombre}</div>
+          ${sub ? `<div class="drop-sub">${sub}</div>` : ''}
         </div>`;
       }).join('');
-
-    } catch(e) {
-      dd.innerHTML = '<div class="drop-estado">⚠️ Sin conexión — escribe km manualmente</div>';
+    } catch (err) {
+      dd.innerHTML = '<div class="drop-estado">⚠️ Error de conexión — escribe km manualmente</div>';
+      console.error(err);
     }
-  }, 250); // 250ms — más rápido
+  }, 300);
 }
 
 function elegir(inputId, ddId, ctx, esOrigen, lat, lon, nombre, ciudad) {
-  const display = nombre + (ciudad ? ', ' + ciudad : '');
-  document.getElementById(inputId).value = display;
+  document.getElementById(inputId).value = nombre + (ciudad ? ', ' + ciudad : '');
   document.getElementById(ddId).classList.remove('visible');
-
-  const key = esOrigen === 'true' ? 'origen' : 'destino';
+  const key = esOrigen ? 'origen' : 'destino';
   coords[ctx][key] = { lat, lon };
-
-  if (coords[ctx].origen && coords[ctx].destino) calcRuta(ctx);
+  if (coords[ctx].origen && coords[ctx].destino) {
+    calcRuta(ctx);
+    const o = document.getElementById(ctx === 'c' ? 'c-origen' : 'r-origen').value;
+    const d = document.getElementById(ctx === 'c' ? 'c-destino' : 'r-destino').value;
+    mostrarPeaje(ctx, o, d);
+  }
 }
 
-// ============ OSRM — RUTA REAL ============
 async function calcRuta(ctx) {
   const c = coords[ctx];
-  const badgeId = 'badge-' + ctx;
-  const badge = document.getElementById(badgeId);
+  const badge = document.getElementById('badge-' + ctx);
   badge.textContent = '🗺️ Calculando ruta...';
   badge.classList.add('visible');
-
   try {
-    const { lat: la1, lon: lo1 } = c.origen;
-    const { lat: la2, lon: lo2 } = c.destino;
-    const url = `https://router.project-osrm.org/route/v1/driving/${lo1},${la1};${lo2},${la2}?overview=false`;
+    const url = `https://router.project-osrm.org/route/v1/driving/${c.origen.lon},${c.origen.lat};${c.destino.lon},${c.destino.lat}?overview=false`;
     const res = await fetch(url);
     const data = await res.json();
-
     if (data.code === 'Ok') {
       const km = (data.routes[0].distance / 1000).toFixed(1);
       const min = Math.round(data.routes[0].duration / 60);
-      badge.textContent = `🗺️ ${km} km · ~${min} min`;
-
+      badge.textContent = `🗺️ ${km} km · ~${fmtMin(min)} (ruta real)`;
       if (ctx === 'c') {
         document.getElementById('c-km').value = km;
         document.getElementById('c-min').value = min;
+        document.getElementById('c-min-fmt').textContent = fmtMin(min);
       } else {
         document.getElementById('r-km').value = km;
         document.getElementById('r-min').value = min;
+        document.getElementById('r-min-fmt').textContent = fmtMin(min);
       }
     } else {
       badge.textContent = '⚠️ Ruta no encontrada — ajusta km manualmente';
@@ -479,36 +409,34 @@ async function calcRuta(ctx) {
   }
 }
 
-// ============ CALCULAR PRECIO ============
 function calcular() {
   const km = parseFloat(document.getElementById('c-km').value);
   const min = parseFloat(document.getElementById('c-min').value);
   if (!km || km <= 0) { alert('Selecciona origen y destino, o escribe los km'); return; }
   if (!min || min <= 0) { alert('Ingresa los minutos estimados'); return; }
-
   const gas = (km / CFG.rendKmL) * CFG.glpL;
   const desg = km * CFG.desgKm;
-  const costo = gas + desg;
+  const peaje = parseFloat(document.getElementById('c-peaje').value) || 0;
+  const costo = gas + desg + peaje;
   let alerta = '';
-
   if (pCalc === 'uber') {
     const surge = parseFloat(document.getElementById('surge').value);
     const tarifa = (CFG.baseUber + km * CFG.kmUber + min * CFG.minUber) * surge;
     const neto = tarifa * (1 - CFG.comUber) - costo;
-    document.getElementById('r-min').textContent = `RD$${Math.round(tarifa)}`;
-    document.getElementById('r-min-lbl').textContent = 'Tarifa Uber estimada';
-    document.getElementById('r-obj').textContent = `RD$${Math.round(tarifa * (1-CFG.comUber))} neto`;
+    document.getElementById('r-tarifa').textContent = `RD$${Math.round(tarifa)}`;
+    document.getElementById('r-tarifa-lbl').textContent = 'Tarifa Uber estimada';
+    document.getElementById('r-obj').textContent = `RD$${Math.round(tarifa*(1-CFG.comUber))} neto`;
     document.getElementById('r-obj-lbl').textContent = '✦ Lo que recibes tú (sin el 27% de Uber)';
     document.getElementById('r-neto').textContent = `RD$${Math.round(neto)}`;
     alerta = neto > 0
       ? `<div class="alerta av">✅ Rentable. Ganancia neta: <strong>RD$${Math.round(neto)}</strong></div>`
-      : `<div class="alerta ar">⚠️ Margen muy ajustado. Tu costo real es RD$${Math.round(costo)}.</div>`;
+      : `<div class="alerta ar">⚠️ Margen ajustado. Costo real: RD$${Math.round(costo)}.</div>`;
   } else {
     const mercado = CFG.baseUber + km * CFG.kmUber + min * CFG.minUber;
     const minimo = Math.max(mercado * (1 - CFG.comUber), costo * 1.3);
     const objetivo = mercado;
-    document.getElementById('r-min').textContent = `RD$${Math.round(minimo)}`;
-    document.getElementById('r-min-lbl').textContent = 'Precio mínimo — no bajes de aquí';
+    document.getElementById('r-tarifa').textContent = `RD$${Math.round(minimo)}`;
+    document.getElementById('r-tarifa-lbl').textContent = 'Precio mínimo — no bajes de aquí';
     document.getElementById('r-obj').textContent = `RD$${Math.round(objetivo)}`;
     document.getElementById('r-obj-lbl').textContent = '✦ Precio objetivo (pide esto primero)';
     document.getElementById('r-neto').textContent = `RD$${Math.round(objetivo - costo)}`;
@@ -516,45 +444,42 @@ function calcular() {
       ? `<div class="alerta aa">💡 Viaje largo. No bajes de RD$${Math.round(minimo)}.</div>`
       : `<div class="alerta av">✅ Pide RD$${Math.round(objetivo)}. Cede hasta RD$${Math.round(minimo)} máximo.</div>`;
   }
-
   document.getElementById('r-gas').textContent = `RD$${Math.round(gas)}`;
   document.getElementById('r-desg').textContent = `RD$${Math.round(desg)}`;
+  document.getElementById('r-peaje-lbl').textContent = peaje > 0 ? `RD$${Math.round(peaje)}` : 'No detectado';
   document.getElementById('r-ctotal').textContent = `RD$${Math.round(costo)}`;
   document.getElementById('r-alerta').innerHTML = alerta;
   document.getElementById('resultado').classList.add('visible');
 }
 
-// ============ GUARDAR VIAJE ============
 function guardar() {
   const origen = document.getElementById('r-origen').value.trim();
   const destino = document.getElementById('r-destino').value.trim();
   const km = parseFloat(document.getElementById('r-km').value);
   const precio = parseFloat(document.getElementById('r-precio').value);
   const duracion = parseFloat(document.getElementById('r-min').value);
-
   if (!origen || !destino) { alert('Escribe origen y destino'); return; }
   if (!km || km <= 0) { alert('Faltan los km'); return; }
   if (!precio || precio <= 0) { alert('Ingresa el precio cobrado'); return; }
   if (!duracion || duracion <= 0) { alert('Ingresa los minutos'); return; }
-
+  const peaje = parseFloat(document.getElementById('r-peaje').value) || 0;
   const gas = (km / CFG.rendKmL) * CFG.glpL;
-  const costo = gas + km * CFG.desgKm;
+  const costo = gas + km * CFG.desgKm + peaje;
   const precioReal = pReg === 'uber' ? precio * (1 - CFG.comUber) : precio;
   const neto = Math.round(precioReal - costo);
   const hora = new Date().toLocaleTimeString('es-DO', { hour: '2-digit', minute: '2-digit' });
-
-  viajes.push({ id: Date.now(), plat: pReg, origen, destino, km, precio, duracion, costo: Math.round(costo), neto, hora });
+  viajes.push({ id: Date.now(), plat: pReg, origen, destino, km, precio, duracion, peaje, costo: Math.round(costo), neto, hora });
   try { localStorage.setItem('v', JSON.stringify(viajes)); localStorage.setItem('f', new Date().toDateString()); } catch(e) {}
-
-  ['r-origen','r-destino','r-km','r-precio','r-min'].forEach(i => document.getElementById(i).value = '');
+  ['r-origen','r-destino','r-km','r-precio','r-min','r-peaje'].forEach(i => document.getElementById(i).value = '');
+  document.getElementById('r-peaje').value = 0;
+  document.getElementById('r-min-fmt').textContent = '';
+  document.getElementById('badge-peaje-r').style.display = 'none';
   coords.r = { origen: null, destino: null };
   document.getElementById('badge-r').classList.remove('visible');
-
   alert(`✅ Guardado\nNeto: RD$${neto}`);
   tab('resumen');
 }
 
-// ============ RESUMEN ============
 function renderResumen() {
   if (!viajes.length) {
     document.getElementById('lista').innerHTML = '<div class="empty"><div class="empty-i">🚗</div><p>Sin viajes hoy.<br>Ve a <strong>Registrar</strong>.</p></div>';
@@ -562,27 +487,24 @@ function renderResumen() {
     document.getElementById('s-km').textContent = '0 km';
     return;
   }
-
   const bruto = viajes.reduce((s,v)=>s+v.precio,0);
   const gastos = viajes.reduce((s,v)=>s+v.costo,0);
   const neto = viajes.reduce((s,v)=>s+v.neto,0);
   const km = viajes.reduce((s,v)=>s+v.km,0);
   const min = viajes.reduce((s,v)=>s+v.duracion,0);
-
   document.getElementById('s-viajes').textContent = viajes.length;
   document.getElementById('s-bruto').textContent = `RD$${Math.round(bruto)}`;
   document.getElementById('s-gastos').textContent = `RD$${Math.round(gastos)}`;
   document.getElementById('s-neto').textContent = `RD$${Math.round(neto)}`;
   document.getElementById('s-neto').style.color = neto>=0?'var(--verde)':'var(--rojo)';
   document.getElementById('s-km').textContent = `${km.toFixed(1)} km`;
-  document.getElementById('s-hora').textContent = min>0 ? `RD$${Math.round(neto/min*60)}` : 'RD$0';
-
+  document.getElementById('s-hora').textContent = min>0?`RD$${Math.round(neto/min*60)}`:'RD$0';
   document.getElementById('lista').innerHTML = viajes.slice().reverse().map(v=>`
     <div class="vitem">
       <div>
         <div class="vplat ${v.plat}">${v.plat==='uber'?'🚗 Uber':'🟢 inDrive'} · ${v.hora}</div>
         <div class="vruta">${v.origen.split(',')[0]} → ${v.destino.split(',')[0]}</div>
-        <div class="vmeta">${v.km} km · ${v.duracion} min</div>
+        <div class="vmeta">${v.km} km · ${fmtMin(v.duracion)}</div>
       </div>
       <div style="text-align:right">
         <div class="vprec">RD$${v.precio}</div>
@@ -599,7 +521,6 @@ function limpiar() {
   }
 }
 
-// Init
 setPlat('calc','uber');
 </script>
 </body>
