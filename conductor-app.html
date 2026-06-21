@@ -13,21 +13,46 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--negro); color: var(--texto); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding-bottom: 80px; }
-  .header { background: var(--carbon); border-bottom: 1px solid var(--borde); padding: 14px 18px 10px; position: sticky; top: 0; z-index: 100; }
-  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
-  .logo { font-size: 20px; font-weight: 800; color: var(--acento); letter-spacing: -0.5px; }
+
+  /* ── HEADER ── */
+  .header { background: var(--carbon); border-bottom: 1px solid var(--borde); padding: 12px 16px 10px; position: sticky; top: 0; z-index: 200; }
+  .header-top { display: flex; align-items: center; justify-content: center; position: relative; min-height: 28px; margin-bottom: 2px; }
+  .hamburger { position: absolute; left: 0; background: none; border: none; cursor: pointer; padding: 4px 6px; display: flex; flex-direction: column; gap: 5px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--texto); border-radius: 2px; }
+  .logo { font-size: 20px; font-weight: 800; color: var(--acento); letter-spacing: -0.5px; text-align: center; }
   .logo span { color: var(--texto); }
-  .reloj { font-size: 12px; color: var(--muted); }
-  .subtitulo { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .tabs { display: flex; background: var(--carbon); border-bottom: 1px solid var(--borde); position: sticky; top: 60px; z-index: 99; }
-  .tab { flex: 1; padding: 11px 6px; text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.5px; }
+  .reloj { font-size: 11px; color: var(--muted); text-align: center; }
+  .subtitulo { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; text-align: center; transition: all 0.3s; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; background: var(--carbon); border-bottom: 1px solid var(--borde); position: sticky; top: 72px; z-index: 199; }
+  .tab { flex: 1; padding: 11px 6px; text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.4px; }
   .tab.active { color: var(--acento); border-bottom-color: var(--acento); }
+
+  /* ── DRAWER ── */
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.28s; }
+  .drawer-overlay.open { opacity: 1; pointer-events: all; }
+  .drawer { position: fixed; top: 0; left: 0; bottom: 0; width: 85%; max-width: 340px; background: var(--carbon); z-index: 301; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1); overflow-y: auto; display: flex; flex-direction: column; }
+  .drawer.open { transform: translateX(0); box-shadow: 6px 0 32px rgba(0,0,0,0.7); }
+  .drawer-head { background: var(--negro); padding: 20px 18px 14px; border-bottom: 1px solid var(--borde); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .drawer-logo { font-size: 22px; font-weight: 800; color: var(--acento); }
+  .drawer-logo span { color: var(--texto); }
+  .drawer-close { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; line-height: 1; padding: 2px 6px; }
+  .drawer-veh { padding: 14px 18px; border-bottom: 1px solid var(--borde); background: var(--plata); flex-shrink: 0; }
+  .drawer-veh-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .drawer-veh-val { font-size: 14px; font-weight: 700; color: var(--texto); }
+  .drawer-veh-sub { font-size: 11px; color: var(--acento); margin-top: 2px; }
+  .drawer-body { padding: 16px; flex: 1; overflow-y: auto; }
+
+  /* ── CARDS ── */
   .pantalla { display: none; padding: 14px 14px 0; }
   .pantalla.visible { display: block; }
   .card { background: var(--carbon); border: 1px solid var(--borde); border-radius: var(--radio); padding: 14px; margin-bottom: 12px; }
   .card-titulo { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--acento); margin-bottom: 12px; }
+
+  /* ── AUTOCOMPLETE ── */
   .campo-auto { position: relative; margin-bottom: 10px; }
-  .campo-auto label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .campo-auto label, .campo label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
   .campo-auto input { width: 100%; background: var(--plata); border: 1px solid var(--borde); border-radius: 10px; padding: 13px 14px; color: var(--texto); font-size: 16px; font-family: inherit; outline: none; -webkit-appearance: none; transition: border-color 0.15s; }
   .campo-auto input:focus { border-color: var(--acento); }
   .dropdown { position: absolute; top: calc(100% + 3px); left: 0; right: 0; background: #1e1e1e; border: 1px solid var(--acento); border-radius: 10px; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.7); overflow: hidden; display: none; }
@@ -38,13 +63,19 @@
   .drop-nombre { font-size: 14px; font-weight: 600; color: var(--texto); line-height: 1.3; }
   .drop-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .drop-estado { padding: 12px 14px; font-size: 13px; color: var(--muted); text-align: center; }
-  .badge-ruta { background: var(--plata); border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; font-size: 13px; font-weight: 700; color: var(--acento); text-align: center; display: none; }
-  .badge-ruta.visible { display: block; }
+
+  /* ── BADGES ── */
+  .badge { background: var(--plata); border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; font-size: 13px; font-weight: 700; color: var(--acento); text-align: center; display: none; }
+  .badge.visible { display: block; }
+  .badge-peaje { background: #F5C51815; border: 1px solid #F5C51840; color: #fde047; }
+
+  /* ── CAMPOS ── */
   .campo { margin-bottom: 10px; }
-  .campo label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
   .campo input, .campo select { width: 100%; background: var(--plata); border: 1px solid var(--borde); border-radius: 10px; padding: 13px 14px; color: var(--texto); font-size: 16px; font-family: inherit; outline: none; -webkit-appearance: none; transition: border-color 0.15s; }
   .campo input:focus, .campo select:focus { border-color: var(--acento); }
   .campo select option { background: var(--carbon); }
+
+  /* ── RESULTADO ── */
   .resultado-box { background: var(--acento-suave); border: 1px solid var(--acento); border-radius: var(--radio); padding: 16px; margin-top: 10px; display: none; }
   .resultado-box.visible { display: block; }
   .precio-grande { font-size: 30px; font-weight: 900; color: var(--acento); text-align: center; padding: 10px 0 2px; letter-spacing: -1px; }
@@ -58,15 +89,26 @@
   .av { background: #22C55E20; border: 1px solid #22C55E50; color: #4ade80; }
   .ar { background: #EF444420; border: 1px solid #EF444450; color: #f87171; }
   .aa { background: #F5C51820; border: 1px solid #F5C51850; color: #fde047; }
+
+  /* ── TOGGLES ── */
   .toggle { display: flex; background: var(--plata); border-radius: 10px; padding: 3px; margin-bottom: 14px; }
   .tog-btn { flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.2s; }
   .tog-btn.uber.active { background: #111; color: white; }
   .tog-btn.indrive.active { background: #00b14f; color: white; }
-  .btn { width: 100%; padding: 14px; border-radius: var(--radio); font-size: 15px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.15s; }
+  .comb-toggle { display: flex; gap: 6px; margin-bottom: 12px; }
+  .comb-btn { flex: 1; padding: 10px 4px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--muted); background: var(--plata); border: 1px solid var(--borde); transition: all 0.2s; }
+  .comb-btn.active { border-color: var(--acento); color: var(--acento); background: var(--acento-suave); }
+
+  /* ── BOTONES ── */
+  .btn { width: 100%; padding: 14px; border-radius: var(--radio); font-size: 15px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.15s; margin-bottom: 6px; }
   .btn:active { opacity: 0.75; }
   .btn-gold { background: var(--acento); color: #000; }
   .btn-verde { background: var(--verde); color: #000; }
-  .btn-rojo { background: var(--rojo); color: white; margin-top: 8px; }
+  .btn-rojo { background: var(--rojo); color: white; }
+  .btn-outline { background: transparent; border: 1px solid var(--borde); color: var(--texto); }
+  .btn-azul { background: #3B82F6; color: white; }
+
+  /* ── RESUMEN ── */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
   .stat { background: var(--plata); border-radius: var(--radio); padding: 13px; text-align: center; }
   .stat-n { font-size: 21px; font-weight: 900; color: var(--acento); letter-spacing: -0.5px; }
@@ -82,16 +124,123 @@
   .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
   .empty-i { font-size: 38px; margin-bottom: 10px; }
   .empty p { font-size: 14px; line-height: 1.5; }
+
+  /* ── CONFIG (inside drawer) ── */
+  .ficha-vehiculo { background: var(--plata); border-radius: var(--radio); padding: 14px; margin-bottom: 12px; display: none; }
+  .ficha-vehiculo.visible { display: block; }
+  .ficha-nombre { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+  .ficha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ficha-item { background: var(--carbon); border-radius: 8px; padding: 10px 12px; }
+  .ficha-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .ficha-val { font-size: 15px; font-weight: 800; color: var(--acento); }
+  .precio-comb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .precio-item { background: var(--plata); border-radius: 8px; padding: 10px 12px; }
+  .precio-tipo { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .precio-num { font-size: 16px; font-weight: 900; color: var(--verde); }
+  .precio-fecha { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .badge-config { border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 10px; display: none; }
+  .badge-config.visible { display: block; }
+  .badge-ok { background: #22C55E20; border: 1px solid #22C55E50; color: #4ade80; }
+  .badge-error { background: #EF444420; border: 1px solid #EF444450; color: #f87171; }
+  .badge-loading { background: #3B82F620; border: 1px solid #3B82F650; color: #93c5fd; }
+  .aviso-cfg { background: var(--acento-suave); border: 1px solid #F5C51840; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .aviso-cfg strong { color: var(--acento); }
 </style>
 </head>
 <body>
 
+<!-- OVERLAY -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="cerrarDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-logo">Mi<span>Ruta</span></div>
+    <button class="drawer-close" onclick="cerrarDrawer()">✕</button>
+  </div>
+  <div class="drawer-veh">
+    <div class="drawer-veh-lbl">Vehículo activo</div>
+    <div class="drawer-veh-val" id="drawer-veh-val">Sin configurar</div>
+    <div class="drawer-veh-sub" id="drawer-veh-sub">Configura tu vehículo abajo</div>
+  </div>
+  <div class="drawer-body" id="drawer-body">
+
+    <div class="aviso-cfg">
+      <strong>Precios MICM</strong> — se actualizan cada viernes. Toca el botón para obtener los valores oficiales de esta semana.
+    </div>
+
+    <!-- PRECIOS -->
+    <div class="card">
+      <div class="card-titulo">Precios de combustible</div>
+      <div class="precio-comb-grid">
+        <div class="precio-item"><div class="precio-tipo">⛽ GLP</div><div class="precio-num" id="p-glp">RD$137.20</div><div class="precio-fecha" id="p-fecha">Manual</div></div>
+        <div class="precio-item"><div class="precio-tipo">🔴 Gas. Regular</div><div class="precio-num" id="p-regular">RD$310.50</div><div class="precio-fecha">por galón</div></div>
+        <div class="precio-item"><div class="precio-tipo">🔴 Gas. Premium</div><div class="precio-num" id="p-premium">RD$341.10</div><div class="precio-fecha">por galón</div></div>
+        <div class="precio-item"><div class="precio-tipo">⚫ Gasoil Ópt.</div><div class="precio-num" id="p-gasoil">RD$262.80</div><div class="precio-fecha">por galón</div></div>
+      </div>
+      <div class="badge-config" id="badge-precios"></div>
+      <button class="btn btn-azul" onclick="actualizarPrecios()">🔄 Actualizar precios MICM</button>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <div class="campo" style="flex:1;margin-bottom:0">
+          <label>Precio manual GLP (RD$/gl)</label>
+          <input type="number" id="input-glp" placeholder="137.20" inputmode="decimal" step="0.01">
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn btn-outline" style="width:auto;padding:13px 16px;margin-bottom:0" onclick="guardarPrecioManual()">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VEHÍCULO -->
+    <div class="card">
+      <div class="card-titulo">Tu vehículo</div>
+      <div class="campo">
+        <label>Marca</label>
+        <select id="sel-marca" onchange="actualizarModelos()">
+          <option value="">— Selecciona marca —</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Modelo</label>
+        <select id="sel-modelo" onchange="actualizarFicha()" disabled>
+          <option value="">— Primero elige la marca —</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Combustible</label>
+        <div class="comb-toggle">
+          <div class="comb-btn active" id="cb-glp" onclick="setComb('GLP')">⛽ GLP</div>
+          <div class="comb-btn" id="cb-gasolina" onclick="setComb('Gasolina')">🔴 Gasolina</div>
+          <div class="comb-btn" id="cb-gasoil" onclick="setComb('Gasoil')">⚫ Gasoil</div>
+        </div>
+      </div>
+      <div class="ficha-vehiculo" id="ficha">
+        <div class="ficha-nombre" id="ficha-nombre">—</div>
+        <div class="ficha-grid">
+          <div class="ficha-item"><div class="ficha-lbl">Rend. gasolina</div><div class="ficha-val" id="ficha-rend-base">—</div></div>
+          <div class="ficha-item"><div class="ficha-lbl">Rend. real (<span id="ficha-comb-lbl">GLP</span>)</div><div class="ficha-val" id="ficha-rend-real">—</div></div>
+          <div class="ficha-item"><div class="ficha-lbl">Costo comb./km</div><div class="ficha-val" id="ficha-gas-km">—</div></div>
+          <div class="ficha-item"><div class="ficha-lbl">Costo total/km</div><div class="ficha-val" id="ficha-total-km">—</div></div>
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="guardarConfig()">✅ Guardar configuración</button>
+      <div class="badge-config" id="badge-cfg"></div>
+    </div>
+
+    <div style="height:16px"></div>
+  </div><!-- /drawer-body -->
+</div><!-- /drawer -->
+
+<!-- HEADER -->
 <div class="header">
   <div class="header-top">
+    <button class="hamburger" onclick="abrirDrawer()" aria-label="Configuración">
+      <span></span><span></span><span></span>
+    </button>
     <div class="logo">Mi<span>Ruta</span></div>
-    <div class="reloj" id="reloj">—</div>
   </div>
-  <div class="subtitulo">Sonata 2012 · GLP · RD$137.20/gl</div>
+  <div class="reloj" id="reloj">—</div>
+  <div class="subtitulo" id="subtitulo-header">Cargando configuración...</div>
 </div>
 
 <div class="tabs">
@@ -100,7 +249,7 @@
   <div class="tab" onclick="tab('resumen')">Resumen</div>
 </div>
 
-<!-- CALCULADORA -->
+<!-- ===== CALCULADORA ===== -->
 <div id="tab-calculadora" class="pantalla visible">
   <div class="card">
     <div class="card-titulo">Plataforma</div>
@@ -120,8 +269,8 @@
         oninput="buscar(this,'dd-c-destino','c',false)" onblur="cerrarDespues('dd-c-destino')">
       <div class="dropdown" id="dd-c-destino"></div>
     </div>
-    <div class="badge-ruta" id="badge-c">📍 —</div>
-    <div class="badge-ruta" id="badge-peaje-c" style="display:none;background:#F5C51815;border:1px solid #F5C51840;color:#fde047;">🛣️ Peaje: —</div>
+    <div class="badge" id="badge-c">📍 —</div>
+    <div class="badge badge-peaje" id="badge-peaje-c">🛣️ —</div>
     <div class="campo">
       <label>Peaje (RD$) — editable</label>
       <input type="number" id="c-peaje" placeholder="0" inputmode="numeric" min="0" value="0">
@@ -142,7 +291,7 @@
         <input type="number" id="c-km" placeholder="Auto" inputmode="decimal" step="0.1" min="0">
       </div>
       <div class="campo" style="flex:1">
-        <label>Min (respaldo) <span id="c-min-fmt" style="color:var(--acento);font-weight:700;"></span></label>
+        <label>Min <span id="c-min-fmt" style="color:var(--acento);font-weight:700"></span></label>
         <input type="number" id="c-min" placeholder="Auto" inputmode="numeric" min="0" oninput="actualizarFmt('c-min','c-min-fmt')">
       </div>
     </div>
@@ -154,7 +303,7 @@
     <div class="precio-obj" id="r-obj">RD$0</div>
     <div class="precio-obj-label" id="r-obj-lbl">—</div>
     <div class="sep"></div>
-    <div class="fila"><span class="et">Costo gas</span><span class="vl" id="r-gas">—</span></div>
+    <div class="fila"><span class="et">Costo combustible</span><span class="vl" id="r-gas">—</span></div>
     <div class="fila"><span class="et">Desgaste</span><span class="vl" id="r-desg">—</span></div>
     <div class="fila"><span class="et">Peaje</span><span class="vl" id="r-peaje-lbl">—</span></div>
     <div class="fila"><span class="et">Costo total</span><span class="vl" id="r-ctotal">—</span></div>
@@ -163,7 +312,7 @@
   </div>
 </div>
 
-<!-- REGISTRAR -->
+<!-- ===== REGISTRAR ===== -->
 <div id="tab-registrar" class="pantalla">
   <div class="card">
     <div class="card-titulo">Nuevo viaje</div>
@@ -183,20 +332,20 @@
         oninput="buscar(this,'dd-r-destino','r',false)" onblur="cerrarDespues('dd-r-destino')">
       <div class="dropdown" id="dd-r-destino"></div>
     </div>
-    <div class="badge-ruta" id="badge-r">📍 —</div>
+    <div class="badge" id="badge-r">📍 —</div>
+    <div class="badge badge-peaje" id="badge-peaje-r">🛣️ —</div>
     <div style="display:flex;gap:8px">
       <div class="campo" style="flex:1">
         <label>Km</label>
         <input type="number" id="r-km" placeholder="Auto" inputmode="decimal" step="0.1" min="0">
       </div>
       <div class="campo" style="flex:1">
-        <label>Minutos <span id="r-min-fmt" style="color:var(--acento);font-weight:700;"></span></label>
+        <label>Min <span id="r-min-fmt" style="color:var(--acento);font-weight:700"></span></label>
         <input type="number" id="r-min" placeholder="Auto" inputmode="numeric" min="0" oninput="actualizarFmt('r-min','r-min-fmt')">
       </div>
     </div>
-    <div class="badge-ruta" id="badge-peaje-r" style="display:none;background:#F5C51815;border:1px solid #F5C51840;color:#fde047;">🛣️ Peaje: —</div>
     <div class="campo">
-      <label>Peaje (RD$) — editable</label>
+      <label>Peaje (RD$)</label>
       <input type="number" id="r-peaje" placeholder="0" inputmode="numeric" min="0" value="0">
     </div>
     <div class="campo">
@@ -207,7 +356,7 @@
   </div>
 </div>
 
-<!-- RESUMEN -->
+<!-- ===== RESUMEN ===== -->
 <div id="tab-resumen" class="pantalla">
   <div class="grid2">
     <div class="stat"><div class="stat-n" id="s-viajes">0</div><div class="stat-l">Viajes</div></div>
@@ -223,283 +372,415 @@
 </div>
 
 <script>
-const CFG = {
-  rendKmL: 7.7, glpL: 137.2 / 3.785, desgKm: 2.5,
-  comUber: 0.27, baseUber: 40, kmUber: 28, minUber: 8,
+// ── DB DE VEHÍCULOS ────────────────────────────────────────────────────────
+const DB = {
+  "Hyundai": [
+    { m:"Sonata N20 2011-2014",  r:9.4,  ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Sonata LF 2015-2019",   r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Elantra 2011-2016",     r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Elantra 2017-2022",     r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Accent 2012-2019",      r:12.8, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Tucson 2011-2015",      r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Santa Fe 2013-2018",    r:9.4,  ajGLP:0.82, ajGasoil:0.96, d:3.0 },
+    { m:"i10 / Grand i10",       r:14.5, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+  ],
+  "Kia": [
+    { m:"Rio 2012-2019",         r:12.8, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Cerato/Forte 2010-2018",r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Optima/K5 2011-2015",   r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Optima/K5 2016-2021",   r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Sportage 2011-2019",    r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Picanto 2012-2019",     r:14.9, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+    { m:"Stinger 2018-2022",     r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+  ],
+  "Toyota": [
+    { m:"Corolla 2009-2013",     r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Corolla 2014-2019",     r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Yaris 2012-2019",       r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Camry 2012-2017",       r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Avanza 2012-2019",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"RAV4 2013-2018",        r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Fortuner 2012-2019",    r:8.9,  ajGLP:0.82, ajGasoil:0.95, d:3.2 },
+    { m:"Prius 2012-2019",       r:21.3, ajGLP:1.0,  ajGasoil:1.0,  d:1.8 },
+  ],
+  "Nissan": [
+    { m:"Versa 2012-2019",       r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Sentra 2013-2019",      r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"March/Micra 2011-2019", r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+    { m:"Tiida 2010-2015",       r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Almera 2013-2019",      r:12.8, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"X-Trail 2014-2019",     r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Note 2013-2019",        r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+  ],
+  "Honda": [
+    { m:"City 2012-2019",        r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Civic 2012-2015",       r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Civic 2016-2021",       r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Accord 2013-2017",      r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"CR-V 2012-2018",        r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Fit/Jazz 2009-2019",    r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+    { m:"HR-V 2015-2021",        r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+  ],
+  "Chevrolet": [
+    { m:"Aveo 2011-2017",        r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Spark 2010-2019",       r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+    { m:"Cruze 2011-2016",       r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Equinox 2016-2021",     r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Captiva 2012-2017",     r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"Trax 2015-2020",        r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Onix 2020-2023",        r:14.5, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+  ],
+  "Suzuki": [
+    { m:"Swift 2012-2019",       r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+    { m:"Celerio 2014-2019",     r:15.3, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+    { m:"Ciaz 2014-2019",        r:14.0, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Vitara 2015-2020",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Ertiga 2013-2019",      r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+  ],
+  "Mitsubishi": [
+    { m:"Lancer 2008-2016",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Outlander 2013-2019",   r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+    { m:"ASX/RVR 2013-2019",     r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Galant 2004-2012",      r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"Mirage 2013-2020",      r:15.3, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+  ],
+  "Daihatsu": [
+    { m:"Mira/Cuore 2012-2018",  r:17.0, ajGLP:0.82, ajGasoil:0.96, d:1.5 },
+    { m:"Terios 2010-2017",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Boon/Materia",          r:15.3, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
+  ],
+  "Mazda": [
+    { m:"Mazda 3 2010-2013",     r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Mazda 3 2014-2019",     r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Mazda 6 2013-2018",     r:11.0, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"CX-5 2013-2019",        r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+  ],
+  "Ford": [
+    { m:"Fiesta 2011-2018",      r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Focus 2012-2018",       r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Fusion 2013-2019",      r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+    { m:"EcoSport 2014-2019",    r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+  ],
+  "Volkswagen": [
+    { m:"Gol 2010-2016",         r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Jetta 2011-2019",       r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
+    { m:"Polo 2012-2019",        r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
+    { m:"Tiguan 2012-2019",      r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
+  ],
+  "Otro": [
+    { m:"Ingresar datos manualmente", r:10.0, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
+  ]
 };
 
+// ── PEAJES ─────────────────────────────────────────────────────────────────
 const PEAJES = [
-  { orig: ['santo domingo','sd'], dest: ['san pedro','spm','macoris','macor'], monto: 100 },
-  { orig: ['san pedro','spm','macoris','macor'], dest: ['la romana','romana'], monto: 100 },
-  { orig: ['santo domingo','sd'], dest: ['la romana','romana'], monto: 200 },
-  { orig: ['san pedro','spm','macoris','macor'], dest: ['punta cana','bavaro','bavar','higuey','higue'], monto: 300 },
-  { orig: ['santo domingo','sd'], dest: ['punta cana','bavaro','bavar','higuey','higue'], monto: 400 },
-  { orig: ['la romana','romana'], dest: ['punta cana','bavaro','bavar','higuey','higue'], monto: 200 },
+  { o:['santo domingo','sd'], d:['san pedro','spm','macoris','macor'], p:100 },
+  { o:['san pedro','spm','macoris','macor'], d:['la romana','romana'], p:100 },
+  { o:['santo domingo','sd'], d:['la romana','romana'], p:200 },
+  { o:['san pedro','spm','macoris','macor'], d:['punta cana','bavaro','bavar','higuey','higue'], p:300 },
+  { o:['santo domingo','sd'], d:['punta cana','bavaro','bavar','higuey','higue'], p:400 },
+  { o:['la romana','romana'], d:['punta cana','bavaro','bavar','higuey','higue'], p:200 },
 ];
 
-function normStr(s) {
-  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-}
+// ── CONFIG ACTIVA ──────────────────────────────────────────────────────────
+let CFG = {
+  rendKmL: 7.7, precioLitro: 137.2/3.785, desgKm: 2.5,
+  comUber: 0.27, baseUber: 40, kmUber: 28, minUber: 8,
+  combustible: 'GLP',
+  vehiculo: 'Hyundai Sonata N20 2011-2014',
+  precios: { glp:137.20, regular:310.50, premium:341.10, gasoil:262.80 }
+};
 
-function detectarPeaje(origen, destino) {
-  const o = normStr(origen);
-  const d = normStr(destino);
-  for (const r of PEAJES) {
-    const mO = r.orig.some(k => o.includes(k));
-    const mD = r.dest.some(k => d.includes(k));
-    const mRev = r.dest.some(k => o.includes(k)) && r.orig.some(k => d.includes(k));
-    if ((mO && mD) || mRev) return r.monto;
-  }
-  return 0;
-}
-
-function mostrarPeaje(ctx, origen, destino) {
-  const monto = detectarPeaje(origen, destino);
-  const badge = document.getElementById('badge-peaje-' + ctx);
-  const input = document.getElementById(ctx === 'c' ? 'c-peaje' : 'r-peaje');
-  if (monto > 0) {
-    badge.textContent = '\u{1F6E3} Peaje detectado: RD$' + monto + ' (editable)';
-    badge.style.display = 'block';
-    input.value = monto;
-  } else {
-    badge.style.display = 'none';
-    input.value = 0;
-  }
-}
-
-function fmtMin(min) {
-  if (!min || min < 60) return Math.round(min) + ' min';
-  const h = Math.floor(min / 60);
-  const m = Math.round(min % 60);
-  return m > 0 ? h + 'h ' + m + 'min' : h + 'h';
-}
-
-function actualizarFmt(inputId, fmtId) {
-  const val = parseFloat(document.getElementById(inputId).value);
-  document.getElementById(fmtId).textContent = val > 0 ? fmtMin(val) : '';
-}
-
+let combActual = 'GLP';
+let vehiculoActual = null;
 let pCalc = 'uber', pReg = 'uber';
 let timers = {};
-let coords = { c: { origen: null, destino: null }, r: { origen: null, destino: null } };
+let coords = { c:{origen:null,destino:null}, r:{origen:null,destino:null} };
 let viajes = [];
 
-try {
-  const saved = JSON.parse(localStorage.getItem('v') || '[]');
-  const f = localStorage.getItem('f');
-  const hoy = new Date().toDateString();
-  viajes = f === hoy ? saved : [];
-  if (f !== hoy) { localStorage.setItem('v','[]'); localStorage.setItem('f', hoy); }
-} catch(e) {}
+// ── PERSISTENCIA ───────────────────────────────────────────────────────────
+function cargarStorage() {
+  try {
+    const cfg = JSON.parse(localStorage.getItem('cfg') || 'null');
+    if (cfg) { CFG = {...CFG, ...cfg}; combActual = cfg.combustible || 'GLP'; }
+    const saved = JSON.parse(localStorage.getItem('v') || '[]');
+    const f = localStorage.getItem('f');
+    const hoy = new Date().toDateString();
+    viajes = f === hoy ? saved : [];
+    if (f !== hoy) { localStorage.setItem('v','[]'); localStorage.setItem('f',hoy); }
+  } catch(e) {}
+}
+cargarStorage();
+actualizarHeader();
 
+function actualizarHeader() {
+  const key = CFG.combustible==='GLP'?'glp':CFG.combustible==='Gasolina'?'regular':'gasoil';
+  const precio = CFG.precios[key];
+  document.getElementById('subtitulo-header').textContent =
+    `${CFG.vehiculo} · ${CFG.combustible} · RD$${precio.toFixed(2)}/gl`;
+  actualizarDrawerVeh();
+}
+
+// ── DRAWER ─────────────────────────────────────────────────────────────────
+function abrirDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  initConfig();
+}
+function cerrarDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function actualizarDrawerVeh() {
+  const el1 = document.getElementById('drawer-veh-val');
+  const el2 = document.getElementById('drawer-veh-sub');
+  if (!el1) return;
+  el1.textContent = CFG.vehiculo || 'Sin configurar';
+  const key = CFG.combustible==='GLP'?'glp':CFG.combustible==='Gasolina'?'regular':'gasoil';
+  const precio = CFG.precios ? CFG.precios[key] : 0;
+  el2.textContent = CFG.combustible + (precio ? ' · RD$'+precio.toFixed(2)+'/gl' : '');
+}
+
+// ── RELOJ ──────────────────────────────────────────────────────────────────
 function tic() {
   const a = new Date();
   document.getElementById('reloj').textContent =
-    a.toLocaleDateString('es-DO',{weekday:'short',day:'numeric',month:'short'}) + ' · ' +
+    a.toLocaleDateString('es-DO',{weekday:'short',day:'numeric',month:'short'})+' · '+
     a.toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});
 }
-tic(); setInterval(tic, 30000);
+tic(); setInterval(tic,30000);
 
+// ── TABS ───────────────────────────────────────────────────────────────────
 function tab(id) {
-  document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('visible'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pantalla').forEach(p=>p.classList.remove('visible'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('visible');
-  ['calculadora','registrar','resumen'].forEach((n,i) => {
+  ['calculadora','registrar','resumen'].forEach((n,i)=>{
     if(n===id) document.querySelectorAll('.tab')[i].classList.add('active');
   });
   if(id==='resumen') renderResumen();
 }
 
-function setPlat(ctx, p) {
+// ── PLATAFORMA ─────────────────────────────────────────────────────────────
+function setPlat(ctx,p) {
   if(ctx==='calc') {
-    pCalc = p;
-    document.getElementById('btn-uber').classList.toggle('active', p==='uber');
-    document.getElementById('btn-indrive').classList.toggle('active', p==='indrive');
-    document.getElementById('campo-surge').style.display = p==='uber' ? 'block' : 'none';
+    pCalc=p;
+    document.getElementById('btn-uber').classList.toggle('active',p==='uber');
+    document.getElementById('btn-indrive').classList.toggle('active',p==='indrive');
+    document.getElementById('campo-surge').style.display=p==='uber'?'block':'none';
     document.getElementById('resultado').classList.remove('visible');
   } else {
-    pReg = p;
-    document.getElementById('rbtn-uber').classList.toggle('active', p==='uber');
-    document.getElementById('rbtn-indrive').classList.toggle('active', p==='indrive');
+    pReg=p;
+    document.getElementById('rbtn-uber').classList.toggle('active',p==='uber');
+    document.getElementById('rbtn-indrive').classList.toggle('active',p==='indrive');
   }
 }
 
-function cerrarDespues(id) {
-  setTimeout(() => { document.getElementById(id).classList.remove('visible'); }, 250);
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function fmtMin(m) {
+  if(!m||m<60) return Math.round(m)+'min';
+  const h=Math.floor(m/60), r=Math.round(m%60);
+  return r>0?h+'h '+r+'min':h+'h';
+}
+function actualizarFmt(iId,fId) {
+  const v=parseFloat(document.getElementById(iId).value);
+  document.getElementById(fId).textContent=v>0?fmtMin(v):'';
+}
+function normStr(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+
+function detectarPeaje(o,d) {
+  const on=normStr(o), dn=normStr(d);
+  for(const r of PEAJES) {
+    const mO=r.o.some(k=>on.includes(k)), mD=r.d.some(k=>dn.includes(k));
+    const mRev=r.d.some(k=>on.includes(k))&&r.o.some(k=>dn.includes(k));
+    if((mO&&mD)||mRev) return r.p;
+  }
+  return 0;
+}
+function mostrarPeaje(ctx,o,d) {
+  const monto=detectarPeaje(o,d);
+  const badge=document.getElementById('badge-peaje-'+ctx);
+  const input=document.getElementById(ctx==='c'?'c-peaje':'r-peaje');
+  if(monto>0) {
+    badge.textContent='🛣️ Peaje detectado: RD$'+monto+' (editable)';
+    badge.classList.add('visible');
+    input.value=monto;
+  } else {
+    badge.classList.remove('visible');
+    input.value=0;
+  }
 }
 
-async function buscar(input, ddId, ctx, esOrigen) {
-  const q = input.value.trim();
-  const dd = document.getElementById(ddId);
-  if (q.length < 2) { dd.classList.remove('visible'); dd.innerHTML = ''; return; }
+// ── AUTOCOMPLETE ───────────────────────────────────────────────────────────
+function cerrarDespues(id) { setTimeout(()=>document.getElementById(id).classList.remove('visible'),250); }
 
+async function buscar(input,ddId,ctx,esOrigen) {
+  const q=input.value.trim();
+  const dd=document.getElementById(ddId);
+  if(q.length<2){dd.classList.remove('visible');return;}
   clearTimeout(timers[ddId]);
-  timers[ddId] = setTimeout(async () => {
-    dd.innerHTML = '<div class="drop-estado">🔍 Buscando...</div>';
+  timers[ddId]=setTimeout(async()=>{
+    dd.innerHTML='<div class="drop-estado">🔍 Buscando...</div>';
     dd.classList.add('visible');
     try {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=do&format=json&addressdetails=1&limit=6&accept-language=es`;
-      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      if (!Array.isArray(data) || data.length === 0) {
-        dd.innerHTML = '<div class="drop-estado">❌ Sin resultados — prueba agregar la ciudad<br><small>Ej: "Miramar Santo Domingo"</small></div>';
+      const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=do&format=json&addressdetails=1&limit=6&accept-language=es`;
+      const res=await fetch(url,{headers:{'Accept':'application/json'}});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const data=await res.json();
+      if(!Array.isArray(data)||!data.length){
+        dd.innerHTML='<div class="drop-estado">❌ Sin resultados — agrega la ciudad<br><small>Ej: "Miramar Santo Domingo"</small></div>';
         return;
       }
-      dd.innerHTML = data.map(item => {
-        const a = item.address || {};
-        const lat = parseFloat(item.lat);
-        const lon = parseFloat(item.lon);
-        const nombre = a.neighbourhood || a.suburb || a.road || a.amenity || a.shop || a.building || item.display_name.split(',')[0];
-        const sub = [a.city || a.town || a.village || a.county, a.state].filter(Boolean).join(', ');
-        const nSafe = nombre.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        const sSafe = sub.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return `<div class="drop-item" onmousedown="elegir('${input.id}','${ddId}','${ctx}',${esOrigen},${lat},${lon},'${nSafe}','${sSafe}')">
+      dd.innerHTML=data.map(item=>{
+        const a=item.address||{};
+        const lat=parseFloat(item.lat), lon=parseFloat(item.lon);
+        const nombre=a.neighbourhood||a.suburb||a.road||a.amenity||a.shop||a.building||item.display_name.split(',')[0];
+        const sub=[a.city||a.town||a.village||a.county,a.state].filter(Boolean).join(', ');
+        const nS=nombre.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        const sS=sub.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return `<div class="drop-item" onmousedown="elegir('${input.id}','${ddId}','${ctx}',${esOrigen},${lat},${lon},'${nS}','${sS}')">
           <div class="drop-nombre">${nombre}</div>
-          ${sub ? `<div class="drop-sub">${sub}</div>` : ''}
+          ${sub?`<div class="drop-sub">${sub}</div>`:''}
         </div>`;
       }).join('');
-    } catch (err) {
-      dd.innerHTML = '<div class="drop-estado">⚠️ Error de conexión — escribe km manualmente</div>';
-      console.error(err);
+    } catch(err) {
+      dd.innerHTML='<div class="drop-estado">⚠️ Error de conexión — escribe km manualmente</div>';
     }
-  }, 300);
+  },300);
 }
 
-function elegir(inputId, ddId, ctx, esOrigen, lat, lon, nombre, ciudad) {
-  document.getElementById(inputId).value = nombre + (ciudad ? ', ' + ciudad : '');
+function elegir(inputId,ddId,ctx,esOrigen,lat,lon,nombre,ciudad) {
+  document.getElementById(inputId).value=nombre+(ciudad?', '+ciudad:'');
   document.getElementById(ddId).classList.remove('visible');
-  const key = esOrigen ? 'origen' : 'destino';
-  coords[ctx][key] = { lat, lon };
-  if (coords[ctx].origen && coords[ctx].destino) {
+  coords[ctx][esOrigen?'origen':'destino']={lat,lon};
+  if(coords[ctx].origen&&coords[ctx].destino) {
     calcRuta(ctx);
-    const o = document.getElementById(ctx === 'c' ? 'c-origen' : 'r-origen').value;
-    const d = document.getElementById(ctx === 'c' ? 'c-destino' : 'r-destino').value;
-    mostrarPeaje(ctx, o, d);
+    const o=document.getElementById(ctx==='c'?'c-origen':'r-origen').value;
+    const d=document.getElementById(ctx==='c'?'c-destino':'r-destino').value;
+    mostrarPeaje(ctx,o,d);
   }
 }
 
 async function calcRuta(ctx) {
-  const c = coords[ctx];
-  const badge = document.getElementById('badge-' + ctx);
-  badge.textContent = '🗺️ Calculando ruta...';
+  const c=coords[ctx];
+  const badge=document.getElementById('badge-'+ctx);
+  badge.textContent='🗺️ Calculando ruta...';
   badge.classList.add('visible');
   try {
-    const url = `https://router.project-osrm.org/route/v1/driving/${c.origen.lon},${c.origen.lat};${c.destino.lon},${c.destino.lat}?overview=false`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.code === 'Ok') {
-      const km = (data.routes[0].distance / 1000).toFixed(1);
-      const min = Math.round(data.routes[0].duration / 60);
-      badge.textContent = `🗺️ ${km} km · ~${fmtMin(min)} (ruta real)`;
-      if (ctx === 'c') {
-        document.getElementById('c-km').value = km;
-        document.getElementById('c-min').value = min;
-        document.getElementById('c-min-fmt').textContent = fmtMin(min);
+    const url=`https://router.project-osrm.org/route/v1/driving/${c.origen.lon},${c.origen.lat};${c.destino.lon},${c.destino.lat}?overview=false`;
+    const res=await fetch(url);
+    const data=await res.json();
+    if(data.code==='Ok') {
+      const km=(data.routes[0].distance/1000).toFixed(1);
+      const min=Math.round(data.routes[0].duration/60);
+      badge.textContent=`🗺️ ${km} km · ~${fmtMin(min)} (ruta real)`;
+      if(ctx==='c'){
+        document.getElementById('c-km').value=km;
+        document.getElementById('c-min').value=min;
+        document.getElementById('c-min-fmt').textContent=fmtMin(min);
       } else {
-        document.getElementById('r-km').value = km;
-        document.getElementById('r-min').value = min;
-        document.getElementById('r-min-fmt').textContent = fmtMin(min);
+        document.getElementById('r-km').value=km;
+        document.getElementById('r-min').value=min;
+        document.getElementById('r-min-fmt').textContent=fmtMin(min);
       }
-    } else {
-      badge.textContent = '⚠️ Ruta no encontrada — ajusta km manualmente';
-    }
-  } catch(e) {
-    badge.textContent = '⚠️ Sin conexión para ruta — ajusta km';
-  }
+    } else { badge.textContent='⚠️ Ruta no encontrada — ajusta km'; }
+  } catch(e) { badge.textContent='⚠️ Sin conexión — ajusta km'; }
 }
 
+// ── CALCULAR ───────────────────────────────────────────────────────────────
 function calcular() {
-  const km = parseFloat(document.getElementById('c-km').value);
-  const min = parseFloat(document.getElementById('c-min').value);
-  if (!km || km <= 0) { alert('Selecciona origen y destino, o escribe los km'); return; }
-  if (!min || min <= 0) { alert('Ingresa los minutos estimados'); return; }
-  const gas = (km / CFG.rendKmL) * CFG.glpL;
-  const desg = km * CFG.desgKm;
-  const peaje = parseFloat(document.getElementById('c-peaje').value) || 0;
-  const costo = gas + desg + peaje;
-  let alerta = '';
-  if (pCalc === 'uber') {
-    const surge = parseFloat(document.getElementById('surge').value);
-    const tarifa = (CFG.baseUber + km * CFG.kmUber + min * CFG.minUber) * surge;
-    const neto = tarifa * (1 - CFG.comUber) - costo;
-    document.getElementById('r-tarifa').textContent = `RD$${Math.round(tarifa)}`;
-    document.getElementById('r-tarifa-lbl').textContent = 'Tarifa Uber estimada';
-    document.getElementById('r-obj').textContent = `RD$${Math.round(tarifa*(1-CFG.comUber))} neto`;
-    document.getElementById('r-obj-lbl').textContent = '✦ Lo que recibes tú (sin el 27% de Uber)';
-    document.getElementById('r-neto').textContent = `RD$${Math.round(neto)}`;
-    alerta = neto > 0
-      ? `<div class="alerta av">✅ Rentable. Ganancia neta: <strong>RD$${Math.round(neto)}</strong></div>`
-      : `<div class="alerta ar">⚠️ Margen ajustado. Costo real: RD$${Math.round(costo)}.</div>`;
+  const km=parseFloat(document.getElementById('c-km').value);
+  const min=parseFloat(document.getElementById('c-min').value);
+  if(!km||km<=0){alert('Selecciona origen/destino o escribe los km');return;}
+  if(!min||min<=0){alert('Ingresa los minutos estimados');return;}
+  const gas=(km/CFG.rendKmL)*CFG.precioLitro;
+  const desg=km*CFG.desgKm;
+  const peaje=parseFloat(document.getElementById('c-peaje').value)||0;
+  const costo=gas+desg+peaje;
+  let alerta='';
+  if(pCalc==='uber') {
+    const surge=parseFloat(document.getElementById('surge').value);
+    const tarifa=(CFG.baseUber+km*CFG.kmUber+min*CFG.minUber)*surge;
+    const neto=tarifa*(1-CFG.comUber)-costo;
+    document.getElementById('r-tarifa').textContent=`RD$${Math.round(tarifa)}`;
+    document.getElementById('r-tarifa-lbl').textContent='Tarifa Uber estimada';
+    document.getElementById('r-obj').textContent=`RD$${Math.round(tarifa*(1-CFG.comUber))} neto`;
+    document.getElementById('r-obj-lbl').textContent='✦ Lo que recibes (sin 27% Uber)';
+    document.getElementById('r-neto').textContent=`RD$${Math.round(neto)}`;
+    alerta=neto>0?`<div class="alerta av">✅ Rentable. Ganancia neta: <strong>RD$${Math.round(neto)}</strong></div>`
+      :`<div class="alerta ar">⚠️ Margen ajustado. Costo real: RD$${Math.round(costo)}.</div>`;
   } else {
-    const mercado = CFG.baseUber + km * CFG.kmUber + min * CFG.minUber;
-    const minimo = Math.max(mercado * (1 - CFG.comUber), costo * 1.3);
-    const objetivo = mercado;
-    document.getElementById('r-tarifa').textContent = `RD$${Math.round(minimo)}`;
-    document.getElementById('r-tarifa-lbl').textContent = 'Precio mínimo — no bajes de aquí';
-    document.getElementById('r-obj').textContent = `RD$${Math.round(objetivo)}`;
-    document.getElementById('r-obj-lbl').textContent = '✦ Precio objetivo (pide esto primero)';
-    document.getElementById('r-neto').textContent = `RD$${Math.round(objetivo - costo)}`;
-    alerta = objetivo > 600
-      ? `<div class="alerta aa">💡 Viaje largo. No bajes de RD$${Math.round(minimo)}.</div>`
-      : `<div class="alerta av">✅ Pide RD$${Math.round(objetivo)}. Cede hasta RD$${Math.round(minimo)} máximo.</div>`;
+    const mercado=CFG.baseUber+km*CFG.kmUber+min*CFG.minUber;
+    const minimo=Math.max(mercado*(1-CFG.comUber),costo*1.3);
+    const objetivo=mercado;
+    document.getElementById('r-tarifa').textContent=`RD$${Math.round(minimo)}`;
+    document.getElementById('r-tarifa-lbl').textContent='Precio mínimo — no bajes de aquí';
+    document.getElementById('r-obj').textContent=`RD$${Math.round(objetivo)}`;
+    document.getElementById('r-obj-lbl').textContent='✦ Precio objetivo (pide esto primero)';
+    document.getElementById('r-neto').textContent=`RD$${Math.round(objetivo-costo)}`;
+    alerta=objetivo>600?`<div class="alerta aa">💡 Viaje largo. No bajes de RD$${Math.round(minimo)}.</div>`
+      :`<div class="alerta av">✅ Pide RD$${Math.round(objetivo)}. Cede hasta RD$${Math.round(minimo)} máximo.</div>`;
   }
-  document.getElementById('r-gas').textContent = `RD$${Math.round(gas)}`;
-  document.getElementById('r-desg').textContent = `RD$${Math.round(desg)}`;
-  document.getElementById('r-peaje-lbl').textContent = peaje > 0 ? `RD$${Math.round(peaje)}` : 'No detectado';
-  document.getElementById('r-ctotal').textContent = `RD$${Math.round(costo)}`;
-  document.getElementById('r-alerta').innerHTML = alerta;
+  document.getElementById('r-gas').textContent=`RD$${Math.round(gas)}`;
+  document.getElementById('r-desg').textContent=`RD$${Math.round(desg)}`;
+  document.getElementById('r-peaje-lbl').textContent=peaje>0?`RD$${Math.round(peaje)}`:'No detectado';
+  document.getElementById('r-ctotal').textContent=`RD$${Math.round(costo)}`;
+  document.getElementById('r-alerta').innerHTML=alerta;
   document.getElementById('resultado').classList.add('visible');
 }
 
+// ── GUARDAR VIAJE ──────────────────────────────────────────────────────────
 function guardar() {
-  const origen = document.getElementById('r-origen').value.trim();
-  const destino = document.getElementById('r-destino').value.trim();
-  const km = parseFloat(document.getElementById('r-km').value);
-  const precio = parseFloat(document.getElementById('r-precio').value);
-  const duracion = parseFloat(document.getElementById('r-min').value);
-  if (!origen || !destino) { alert('Escribe origen y destino'); return; }
-  if (!km || km <= 0) { alert('Faltan los km'); return; }
-  if (!precio || precio <= 0) { alert('Ingresa el precio cobrado'); return; }
-  if (!duracion || duracion <= 0) { alert('Ingresa los minutos'); return; }
-  const peaje = parseFloat(document.getElementById('r-peaje').value) || 0;
-  const gas = (km / CFG.rendKmL) * CFG.glpL;
-  const costo = gas + km * CFG.desgKm + peaje;
-  const precioReal = pReg === 'uber' ? precio * (1 - CFG.comUber) : precio;
-  const neto = Math.round(precioReal - costo);
-  const hora = new Date().toLocaleTimeString('es-DO', { hour: '2-digit', minute: '2-digit' });
-  viajes.push({ id: Date.now(), plat: pReg, origen, destino, km, precio, duracion, peaje, costo: Math.round(costo), neto, hora });
-  try { localStorage.setItem('v', JSON.stringify(viajes)); localStorage.setItem('f', new Date().toDateString()); } catch(e) {}
-  ['r-origen','r-destino','r-km','r-precio','r-min','r-peaje'].forEach(i => document.getElementById(i).value = '');
-  document.getElementById('r-peaje').value = 0;
-  document.getElementById('r-min-fmt').textContent = '';
-  document.getElementById('badge-peaje-r').style.display = 'none';
-  coords.r = { origen: null, destino: null };
+  const origen=document.getElementById('r-origen').value.trim();
+  const destino=document.getElementById('r-destino').value.trim();
+  const km=parseFloat(document.getElementById('r-km').value);
+  const precio=parseFloat(document.getElementById('r-precio').value);
+  const duracion=parseFloat(document.getElementById('r-min').value);
+  if(!origen||!destino){alert('Escribe origen y destino');return;}
+  if(!km||km<=0){alert('Faltan los km');return;}
+  if(!precio||precio<=0){alert('Ingresa el precio cobrado');return;}
+  if(!duracion||duracion<=0){alert('Ingresa los minutos');return;}
+  const peaje=parseFloat(document.getElementById('r-peaje').value)||0;
+  const gas=(km/CFG.rendKmL)*CFG.precioLitro;
+  const costo=gas+km*CFG.desgKm+peaje;
+  const precioReal=pReg==='uber'?precio*(1-CFG.comUber):precio;
+  const neto=Math.round(precioReal-costo);
+  const hora=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});
+  viajes.push({id:Date.now(),plat:pReg,origen,destino,km,precio,duracion,peaje,costo:Math.round(costo),neto,hora});
+  try{localStorage.setItem('v',JSON.stringify(viajes));localStorage.setItem('f',new Date().toDateString());}catch(e){}
+  ['r-origen','r-destino','r-km','r-precio','r-min'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('r-peaje').value=0;
+  document.getElementById('r-min-fmt').textContent='';
+  document.getElementById('badge-peaje-r').classList.remove('visible');
+  coords.r={origen:null,destino:null};
   document.getElementById('badge-r').classList.remove('visible');
   alert(`✅ Guardado\nNeto: RD$${neto}`);
   tab('resumen');
 }
 
+// ── RESUMEN ────────────────────────────────────────────────────────────────
 function renderResumen() {
-  if (!viajes.length) {
-    document.getElementById('lista').innerHTML = '<div class="empty"><div class="empty-i">🚗</div><p>Sin viajes hoy.<br>Ve a <strong>Registrar</strong>.</p></div>';
-    ['s-viajes','s-bruto','s-gastos','s-neto','s-hora'].forEach(id => document.getElementById(id).textContent = id==='s-viajes'?'0':'RD$0');
-    document.getElementById('s-km').textContent = '0 km';
+  if(!viajes.length){
+    document.getElementById('lista').innerHTML='<div class="empty"><div class="empty-i">🚗</div><p>Sin viajes hoy.<br>Ve a <strong>Registrar</strong>.</p></div>';
+    ['s-viajes','s-bruto','s-gastos','s-neto','s-hora'].forEach(id=>document.getElementById(id).textContent=id==='s-viajes'?'0':'RD$0');
+    document.getElementById('s-km').textContent='0 km';
     return;
   }
-  const bruto = viajes.reduce((s,v)=>s+v.precio,0);
-  const gastos = viajes.reduce((s,v)=>s+v.costo,0);
-  const neto = viajes.reduce((s,v)=>s+v.neto,0);
-  const km = viajes.reduce((s,v)=>s+v.km,0);
-  const min = viajes.reduce((s,v)=>s+v.duracion,0);
-  document.getElementById('s-viajes').textContent = viajes.length;
-  document.getElementById('s-bruto').textContent = `RD$${Math.round(bruto)}`;
-  document.getElementById('s-gastos').textContent = `RD$${Math.round(gastos)}`;
-  document.getElementById('s-neto').textContent = `RD$${Math.round(neto)}`;
-  document.getElementById('s-neto').style.color = neto>=0?'var(--verde)':'var(--rojo)';
-  document.getElementById('s-km').textContent = `${km.toFixed(1)} km`;
-  document.getElementById('s-hora').textContent = min>0?`RD$${Math.round(neto/min*60)}`:'RD$0';
-  document.getElementById('lista').innerHTML = viajes.slice().reverse().map(v=>`
+  const bruto=viajes.reduce((s,v)=>s+v.precio,0);
+  const gastos=viajes.reduce((s,v)=>s+v.costo,0);
+  const neto=viajes.reduce((s,v)=>s+v.neto,0);
+  const km=viajes.reduce((s,v)=>s+v.km,0);
+  const min=viajes.reduce((s,v)=>s+v.duracion,0);
+  document.getElementById('s-viajes').textContent=viajes.length;
+  document.getElementById('s-bruto').textContent=`RD$${Math.round(bruto)}`;
+  document.getElementById('s-gastos').textContent=`RD$${Math.round(gastos)}`;
+  document.getElementById('s-neto').textContent=`RD$${Math.round(neto)}`;
+  document.getElementById('s-neto').style.color=neto>=0?'var(--verde)':'var(--rojo)';
+  document.getElementById('s-km').textContent=`${km.toFixed(1)} km`;
+  document.getElementById('s-hora').textContent=min>0?`RD$${Math.round(neto/min*60)}`:'RD$0';
+  document.getElementById('lista').innerHTML=viajes.slice().reverse().map(v=>`
     <div class="vitem">
       <div>
         <div class="vplat ${v.plat}">${v.plat==='uber'?'🚗 Uber':'🟢 inDrive'} · ${v.hora}</div>
@@ -514,13 +795,182 @@ function renderResumen() {
 }
 
 function limpiar() {
-  if (confirm('¿Limpiar todos los viajes de hoy?')) {
-    viajes = [];
-    try { localStorage.setItem('v','[]'); } catch(e) {}
+  if(confirm('¿Limpiar todos los viajes de hoy?')){
+    viajes=[];
+    try{localStorage.setItem('v','[]');}catch(e){}
     renderResumen();
   }
 }
 
+// ── CONFIG ─────────────────────────────────────────────────────────────────
+function initConfig() {
+  const sel=document.getElementById('sel-marca');
+  if(sel.options.length<=1) {
+    Object.keys(DB).sort().forEach(marca=>{
+      const o=document.createElement('option');
+      o.value=marca; o.textContent=marca; sel.appendChild(o);
+    });
+  }
+  mostrarPrecios();
+  try {
+    const cfg=JSON.parse(localStorage.getItem('cfg')||'null');
+    if(cfg&&cfg.marca) {
+      document.getElementById('sel-marca').value=cfg.marca;
+      actualizarModelos();
+      if(cfg.modeloIdx!==undefined) document.getElementById('sel-modelo').value=cfg.modeloIdx;
+      combActual=cfg.combustible||'GLP';
+      actualizarCombBtns();
+      actualizarFicha();
+    }
+  } catch(e){}
+}
+
+function mostrarPrecios() {
+  const p=CFG.precios;
+  document.getElementById('p-glp').textContent=`RD$${p.glp.toFixed(2)}`;
+  document.getElementById('p-regular').textContent=`RD$${p.regular.toFixed(2)}`;
+  document.getElementById('p-premium').textContent=`RD$${p.premium.toFixed(2)}`;
+  document.getElementById('p-gasoil').textContent=`RD$${p.gasoil.toFixed(2)}`;
+  document.getElementById('input-glp').placeholder=p.glp.toFixed(2);
+  const fecha=localStorage.getItem('fecha-precios');
+  document.getElementById('p-fecha').textContent=fecha?'Actualizado: '+fecha:'Manual';
+}
+
+async function actualizarPrecios() {
+  const badge=document.getElementById('badge-precios');
+  badge.className='badge-config visible badge-loading';
+  badge.textContent='🔄 Consultando MICM...';
+  try {
+    const res=await fetch('https://api.digital.gob.do/v1/fuels',{headers:{'Accept':'application/json'}});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    const find=(kw)=>{const i=data.find(d=>kw.some(k=>d.name&&d.name.toLowerCase().includes(k)));return i?parseFloat(i.price||i.precio||0):null;};
+    const glp=find(['glp','gas licuado']); const regular=find(['regular']); const premium=find(['premium']); const gasoil=find(['gasoil','gasoíl']);
+    if(!glp&&!regular) throw new Error('Formato inesperado');
+    if(glp) CFG.precios.glp=glp;
+    if(regular) CFG.precios.regular=regular;
+    if(premium) CFG.precios.premium=premium;
+    if(gasoil) CFG.precios.gasoil=gasoil;
+    const hoy=new Date().toLocaleDateString('es-DO',{day:'numeric',month:'short'});
+    localStorage.setItem('fecha-precios',hoy);
+    guardarCFG(); mostrarPrecios();
+    badge.className='badge-config visible badge-ok';
+    badge.textContent=`✅ Precios actualizados — ${hoy}`;
+    actualizarHeader();
+  } catch(e) {
+    try {
+      const r2=await fetch('https://api.allorigins.win/get?url='+encodeURIComponent('https://micm.gob.do/'));
+      const d2=await r2.json(); const html=d2.contents||'';
+      const glpM=html.match(/GLP[^$]*\$?\s*([\d,\.]+)/i);
+      const regM=html.match(/Regular[^$]*\$?\s*([\d,\.]+)/i);
+      const premM=html.match(/Premium[^$]*\$?\s*([\d,\.]+)/i);
+      const gasM=html.match(/Gasoil[^$\w]*\$?\s*([\d,\.]+)/i);
+      const parse=(m)=>m?parseFloat(m[1].replace(',','.')):null;
+      const g2=parse(glpM);
+      if(g2&&g2>50&&g2<500){
+        if(g2) CFG.precios.glp=g2;
+        const r2v=parse(regM); if(r2v) CFG.precios.regular=r2v;
+        const p2=parse(premM); if(p2) CFG.precios.premium=p2;
+        const ga2=parse(gasM); if(ga2) CFG.precios.gasoil=ga2;
+        const hoy=new Date().toLocaleDateString('es-DO',{day:'numeric',month:'short'});
+        localStorage.setItem('fecha-precios',hoy);
+        guardarCFG(); mostrarPrecios();
+        badge.className='badge-config visible badge-ok';
+        badge.textContent=`✅ Precios del MICM — ${hoy}`;
+        actualizarHeader();
+      } else throw new Error('No se pudo extraer');
+    } catch(e2){
+      badge.className='badge-config visible badge-error';
+      badge.textContent='⚠️ Sin conexión al MICM. Actualiza el GLP manualmente.';
+    }
+  }
+}
+
+function guardarPrecioManual() {
+  const val=parseFloat(document.getElementById('input-glp').value);
+  if(!val||val<50||val>500){alert('Precio no válido');return;}
+  CFG.precios.glp=val;
+  recalcularRendimiento(); guardarCFG(); mostrarPrecios();
+  document.getElementById('badge-precios').className='badge-config visible badge-ok';
+  document.getElementById('badge-precios').textContent=`✅ GLP actualizado a RD$${val.toFixed(2)}/gl`;
+  actualizarHeader(); actualizarFicha();
+}
+
+function actualizarModelos() {
+  const marca=document.getElementById('sel-marca').value;
+  const sel=document.getElementById('sel-modelo');
+  sel.innerHTML='<option value="">— Selecciona modelo —</option>';
+  sel.disabled=!marca;
+  if(!marca) return;
+  DB[marca].forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.m;sel.appendChild(o);});
+  vehiculoActual=null;
+  document.getElementById('ficha').classList.remove('visible');
+}
+
+function setComb(tipo) { combActual=tipo; actualizarCombBtns(); actualizarFicha(); }
+function actualizarCombBtns() {
+  document.getElementById('cb-glp').classList.toggle('active',combActual==='GLP');
+  document.getElementById('cb-gasolina').classList.toggle('active',combActual==='Gasolina');
+  document.getElementById('cb-gasoil').classList.toggle('active',combActual==='Gasoil');
+}
+
+function actualizarFicha() {
+  const marca=document.getElementById('sel-marca').value;
+  const idx=document.getElementById('sel-modelo').value;
+  if(!marca||idx==='') return;
+  vehiculoActual={...DB[marca][parseInt(idx)],marca};
+  const v=vehiculoActual;
+  let rend=combActual==='GLP'?v.r*v.ajGLP:combActual==='Gasoil'?v.r*v.ajGasoil:v.r;
+  const precio=combActual==='GLP'?CFG.precios.glp:combActual==='Gasolina'?CFG.precios.regular:CFG.precios.gasoil;
+  const precioL=precio/3.785;
+  const gasKm=precioL/rend;
+  const totalKm=gasKm+v.d;
+  document.getElementById('ficha-nombre').textContent=`${marca} ${v.m}`;
+  document.getElementById('ficha-rend-base').textContent=`${v.r.toFixed(1)} km/l`;
+  document.getElementById('ficha-comb-lbl').textContent=combActual;
+  document.getElementById('ficha-rend-real').textContent=`${rend.toFixed(1)} km/l`;
+  document.getElementById('ficha-gas-km').textContent=`RD$${gasKm.toFixed(2)}`;
+  document.getElementById('ficha-total-km').textContent=`RD$${totalKm.toFixed(2)}`;
+  document.getElementById('ficha').classList.add('visible');
+}
+
+function recalcularRendimiento() {
+  if(!vehiculoActual) return;
+  const v=vehiculoActual;
+  let rend=combActual==='GLP'?v.r*v.ajGLP:combActual==='Gasoil'?v.r*v.ajGasoil:v.r;
+  CFG.rendKmL=rend;
+  const precio=combActual==='GLP'?CFG.precios.glp:combActual==='Gasolina'?CFG.precios.regular:CFG.precios.gasoil;
+  CFG.precioLitro=precio/3.785;
+  CFG.desgKm=v.d;
+}
+
+function guardarConfig() {
+  const marca=document.getElementById('sel-marca').value;
+  const idx=document.getElementById('sel-modelo').value;
+  if(!marca||idx===''){alert('Selecciona marca y modelo');return;}
+  vehiculoActual={...DB[marca][parseInt(idx)],marca};
+  recalcularRendimiento();
+  CFG.combustible=combActual;
+  CFG.vehiculo=`${marca} ${vehiculoActual.m}`;
+  guardarCFG();
+  document.getElementById('badge-cfg').className='badge-config visible badge-ok';
+  document.getElementById('badge-cfg').textContent=`✅ ${CFG.vehiculo} · ${combActual} guardado`;
+  actualizarHeader();
+  actualizarFicha();
+}
+
+function guardarCFG() {
+  const toSave={
+    rendKmL:CFG.rendKmL, precioLitro:CFG.precioLitro, desgKm:CFG.desgKm,
+    combustible:CFG.combustible, vehiculo:CFG.vehiculo,
+    marca:document.getElementById('sel-marca').value,
+    modeloIdx:document.getElementById('sel-modelo').value,
+    precios:CFG.precios
+  };
+  try{localStorage.setItem('cfg',JSON.stringify(toSave));}catch(e){}
+}
+
+// Init
 setPlat('calc','uber');
 </script>
 </body>
