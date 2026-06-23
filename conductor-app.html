@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>MiRuta — Panel del Conductor</title>
 <style>
   :root {
     --negro: #0D0D0D; --carbon: #1A1A1A; --plata: #2A2A2A;
     --acento: #F5C518; --acento-suave: #F5C51820;
-    --verde: #22C55E; --rojo: #EF4444;
+    --verde: #22C55E; --rojo: #EF4444; --azul: #3B82F6;
     --texto: #F0F0F0; --muted: #888; --borde: #333; --radio: 14px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,9 +24,9 @@
   .reloj { font-size: 11px; color: var(--muted); text-align: center; }
   .subtitulo { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; text-align: center; transition: all 0.3s; }
 
-  /* ── TABS ── */
+  /* ── TABS (Optimizado para 4 pestañas en móviles) ── */
   .tabs { display: flex; background: var(--carbon); border-bottom: 1px solid var(--borde); position: sticky; top: 72px; z-index: 199; }
-  .tab { flex: 1; padding: 11px 6px; text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.4px; }
+  .tab { flex: 1; padding: 12px 2px; text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.2px; white-space: nowrap; }
   .tab.active { color: var(--acento); border-bottom-color: var(--acento); }
 
   /* ── DRAWER ── */
@@ -59,7 +59,7 @@
   .dropdown.visible { display: block; }
   .drop-item { padding: 11px 14px; border-bottom: 1px solid #2a2a2a; cursor: pointer; }
   .drop-item:last-child { border-bottom: none; }
-  .drop-item:active, .drop-item:hover { background: var(--acento-suave); }
+  .drop-item:active { background: var(--acento-suave); }
   .drop-nombre { font-size: 14px; font-weight: 600; color: var(--texto); line-height: 1.3; }
   .drop-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .drop-estado { padding: 12px 14px; font-size: 13px; color: var(--muted); text-align: center; }
@@ -90,11 +90,13 @@
   .ar { background: #EF444420; border: 1px solid #EF444450; color: #f87171; }
   .aa { background: #F5C51820; border: 1px solid #F5C51850; color: #fde047; }
 
-  /* ── TOGGLES ── */
-  .toggle { display: flex; background: var(--plata); border-radius: 10px; padding: 3px; margin-bottom: 14px; }
-  .tog-btn { flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+  /* ── TOGGLES (Selector de 3 vías de Plataforma) ── */
+  .toggle { display: flex; background: var(--plata); border-radius: 10px; padding: 3px; margin-bottom: 14px; gap: 4px; }
+  .tog-btn { flex: 1; padding: 10px 2px; border-radius: 8px; text-align: center; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.2s; white-space: nowrap; }
   .tog-btn.uber.active { background: #111; color: white; }
   .tog-btn.indrive.active { background: #00b14f; color: white; }
+  .tog-btn.particular.active { background: var(--azul); color: white; }
+  
   .comb-toggle { display: flex; gap: 6px; margin-bottom: 12px; }
   .comb-btn { flex: 1; padding: 10px 4px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--muted); background: var(--plata); border: 1px solid var(--borde); transition: all 0.2s; }
   .comb-btn.active { border-color: var(--acento); color: var(--acento); background: var(--acento-suave); }
@@ -106,17 +108,24 @@
   .btn-verde { background: var(--verde); color: #000; }
   .btn-rojo { background: var(--rojo); color: white; }
   .btn-outline { background: transparent; border: 1px solid var(--borde); color: var(--texto); }
-  .btn-azul { background: #3B82F6; color: white; }
+  .btn-azul { background: var(--azul); color: white; }
 
-  /* ── RESUMEN ── */
+  /* ── RESUMEN & METAS ── */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
   .stat { background: var(--plata); border-radius: var(--radio); padding: 13px; text-align: center; }
   .stat-n { font-size: 21px; font-weight: 900; color: var(--acento); letter-spacing: -0.5px; }
   .stat-l { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
   .sv .stat-n { color: var(--verde); } .sr .stat-n { color: var(--rojo); }
+  
+  /* Barra de Progreso Meta */
+  .meta-container { background: var(--plata); border-radius: var(--radio); padding: 16px; text-align: center; margin-bottom: 14px; }
+  .meta-progreso-barra { background: #111; border: 1px solid var(--borde); height: 16px; border-radius: 20px; margin: 12px 0 6px; overflow: hidden; position: relative; }
+  .meta-progreso-relleno { background: linear-gradient(90deg, var(--acento), var(--verde)); height: 100%; width: 0%; transition: width 0.4s ease; }
+  .meta-txt-porc { font-size: 14px; font-weight: 800; color: var(--verde); margin-top: 4px; }
+
   .vitem { background: var(--plata); border-radius: 10px; padding: 11px 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
   .vplat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-  .vplat.uber { color: #aaa; } .vplat.indrive { color: #00b14f; }
+  .vplat.uber { color: #aaa; } .vplat.indrive { color: #00b14f; } .vplat.particular { color: var(--azul); }
   .vruta { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
   .vmeta { font-size: 11px; color: var(--muted); }
   .vprec { font-size: 18px; font-weight: 900; color: var(--acento); }
@@ -125,7 +134,7 @@
   .empty-i { font-size: 38px; margin-bottom: 10px; }
   .empty p { font-size: 14px; line-height: 1.5; }
 
-  /* ── CONFIG (inside drawer) ── */
+  /* Ficha técnica */
   .ficha-vehiculo { background: var(--plata); border-radius: var(--radio); padding: 14px; margin-bottom: 12px; display: none; }
   .ficha-vehiculo.visible { display: block; }
   .ficha-nombre { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
@@ -149,10 +158,8 @@
 </head>
 <body>
 
-<!-- OVERLAY -->
 <div class="drawer-overlay" id="drawer-overlay" onclick="cerrarDrawer()"></div>
 
-<!-- DRAWER -->
 <div class="drawer" id="drawer">
   <div class="drawer-head">
     <div class="drawer-logo">Mi<span>Ruta</span></div>
@@ -169,7 +176,6 @@
       <strong>Precios MICM</strong> — se actualizan cada viernes. Toca el botón para obtener los valores oficiales de esta semana.
     </div>
 
-    <!-- PRECIOS -->
     <div class="card">
       <div class="card-titulo">Precios de combustible</div>
       <div class="precio-comb-grid">
@@ -191,7 +197,6 @@
       </div>
     </div>
 
-    <!-- VEHÍCULO -->
     <div class="card">
       <div class="card-titulo">Tu vehículo</div>
       <div class="campo">
@@ -228,11 +233,7 @@
     </div>
 
     <div style="height:16px"></div>
-  </div><!-- /drawer-body -->
-</div><!-- /drawer -->
-
-<!-- HEADER -->
-<div class="header">
+  </div></div><div class="header">
   <div class="header-top">
     <button class="hamburger" onclick="abrirDrawer()" aria-label="Configuración">
       <span></span><span></span><span></span>
@@ -247,26 +248,27 @@
   <div class="tab active" onclick="tab('calculadora')">Calcular</div>
   <div class="tab" onclick="tab('registrar')">Registrar</div>
   <div class="tab" onclick="tab('resumen')">Resumen</div>
+  <div class="tab" onclick="tab('meta')">Mi Meta</div>
 </div>
 
-<!-- ===== CALCULADORA ===== -->
 <div id="tab-calculadora" class="pantalla visible">
   <div class="card">
-    <div class="card-titulo">Plataforma</div>
+    <div class="card-titulo">Plataforma / Servicio</div>
     <div class="toggle">
       <div class="tog-btn uber active" id="btn-uber" onclick="setPlat('calc','uber')">🚗 Uber</div>
       <div class="tog-btn indrive" id="btn-indrive" onclick="setPlat('calc','indrive')">🟢 inDrive</div>
+      <div class="tog-btn particular" id="btn-particular" onclick="setPlat('calc','particular')">👤 Particular</div>
     </div>
     <div class="campo-auto">
       <label>Origen</label>
       <input type="text" id="c-origen" placeholder="Ej: Naco, San Pedro, Higüey..." autocomplete="off"
-        oninput="buscar(this,'dd-c-origen','c',true)" onblur="cerrarDespues('dd-c-origen')">
+        oninput="buscar(this,'dd-c-origen','c',true)">
       <div class="dropdown" id="dd-c-origen"></div>
     </div>
     <div class="campo-auto">
       <label>Destino</label>
       <input type="text" id="c-destino" placeholder="Ej: La Romana, Bávaro, Santiago..." autocomplete="off"
-        oninput="buscar(this,'dd-c-destino','c',false)" onblur="cerrarDespues('dd-c-destino')">
+        oninput="buscar(this,'dd-c-destino','c',false)">
       <div class="dropdown" id="dd-c-destino"></div>
     </div>
     <div class="badge" id="badge-c">📍 —</div>
@@ -275,7 +277,7 @@
       <label>Peaje (RD$) — editable</label>
       <input type="number" id="c-peaje" placeholder="0" inputmode="numeric" min="0" value="0">
     </div>
-    <div id="campo-surge" class="campo" style="display:none">
+    <div id="campo-surge" class="campo">
       <label>¿Hay surge?</label>
       <select id="surge">
         <option value="1">Sin surge (1.0x)</option>
@@ -312,24 +314,24 @@
   </div>
 </div>
 
-<!-- ===== REGISTRAR ===== -->
 <div id="tab-registrar" class="pantalla">
   <div class="card">
     <div class="card-titulo">Nuevo viaje</div>
     <div class="toggle">
       <div class="tog-btn uber active" id="rbtn-uber" onclick="setPlat('reg','uber')">🚗 Uber</div>
       <div class="tog-btn indrive" id="rbtn-indrive" onclick="setPlat('reg','indrive')">🟢 inDrive</div>
+      <div class="tog-btn particular" id="rbtn-particular" onclick="setPlat('reg','particular')">👤 Particular</div>
     </div>
     <div class="campo-auto">
       <label>Origen</label>
       <input type="text" id="r-origen" placeholder="Ej: Naco, San Pedro..." autocomplete="off"
-        oninput="buscar(this,'dd-r-origen','r',true)" onblur="cerrarDespues('dd-r-origen')">
+        oninput="buscar(this,'dd-r-origen','r',true)">
       <div class="dropdown" id="dd-r-origen"></div>
     </div>
     <div class="campo-auto">
       <label>Destino</label>
       <input type="text" id="r-destino" placeholder="Ej: Higüey, La Romana..." autocomplete="off"
-        oninput="buscar(this,'dd-r-destino','r',false)" onblur="cerrarDespues('dd-r-destino')">
+        oninput="buscar(this,'dd-r-destino','r',false)">
       <div class="dropdown" id="dd-r-destino"></div>
     </div>
     <div class="badge" id="badge-r">📍 —</div>
@@ -349,14 +351,13 @@
       <input type="number" id="r-peaje" placeholder="0" inputmode="numeric" min="0" value="0">
     </div>
     <div class="campo">
-      <label>Precio cobrado (RD$)</label>
+      <label id="lbl-precio-cobrado">Precio cobrado (RD$)</label>
       <input type="number" id="r-precio" placeholder="Ej: 450" inputmode="numeric" min="0">
     </div>
     <button class="btn btn-verde" onclick="guardar()">+ Guardar viaje</button>
   </div>
 </div>
 
-<!-- ===== RESUMEN ===== -->
 <div id="tab-resumen" class="pantalla">
   <div class="grid2">
     <div class="stat"><div class="stat-n" id="s-viajes">0</div><div class="stat-l">Viajes</div></div>
@@ -367,7 +368,35 @@
     <div class="stat sv"><div class="stat-n" id="s-hora">RD$0</div><div class="stat-l">RD$/hora</div></div>
   </div>
   <div id="lista"></div>
-  <button class="btn btn-rojo" onclick="limpiar()">🗑 Limpiar día</button>
+  <button class="btn btn-rojo" onclick="limpiar()">🗑 Limpiar datos acumulados</button>
+  <div style="height:20px"></div>
+</div>
+
+<div id="tab-meta" class="pantalla">
+  <div class="meta-container">
+    <div class="card-titulo" style="margin-bottom:6px">Meta del día</div>
+    <div style="display:flex; gap:8px; justify-content:center; align-items:center; margin-bottom:6px;">
+      <span style="font-size:14px; color:var(--muted)">RD$</span>
+      <input type="number" id="meta-input" value="3000" style="background:var(--carbon); border:1px solid var(--borde); color:var(--texto); font-size:18px; font-weight:800; padding:6px 10px; width:110px; border-radius:8px; text-align:center;" onchange="actualizarMetaDashboard()">
+    </div>
+    <div class="meta-progreso-barra">
+      <div class="meta-progreso-relleno" id="meta-barra"></div>
+    </div>
+    <div class="meta-txt-porc" id="meta-porcentaje">0% Completado</div>
+  </div>
+
+  <div class="card">
+    <div class="card-titulo">Análisis Operativo Financiero</div>
+    <div class="fila"><span class="et">Faltante para la Meta</span><span class="vl" id="m-faltante">RD$0</span></div>
+    <div class="sep"></div>
+    <div class="fila"><span class="et">Horas en Conducción Activa</span><span class="vl" id="m-horas-activas">0.0h</span></div>
+    <div class="fila"><span class="et">Horas Transcurridas Turno</span><span class="vl" id="m-horas-turno">0.0h</span></div>
+    <div class="sep"></div>
+    <div class="fila"><span class="et">Rendimiento Real Bruto</span><span class="vl" id="m-bruto-hora" style="color:var(--acento)">RD$0/h</span></div>
+    <div class="fila"><span class="et">Rendimiento Real Neto (Fix Real)</span><span class="vl" id="m-neto-hora" style="color:var(--verde)">RD$0/h</span></div>
+  </div>
+
+  <button class="btn btn-azul" onclick="exportarResumenTexto()">📋 Exportar Resumen (WhatsApp)</button>
   <div style="height:20px"></div>
 </div>
 
@@ -391,7 +420,6 @@ const DB = {
     { m:"Optima/K5 2016-2021",   r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
     { m:"Sportage 2011-2019",    r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
     { m:"Picanto 2012-2019",     r:14.9, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-    { m:"Stinger 2018-2022",     r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
   ],
   "Toyota": [
     { m:"Corolla 2009-2013",     r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
@@ -410,62 +438,6 @@ const DB = {
     { m:"Tiida 2010-2015",       r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
     { m:"Almera 2013-2019",      r:12.8, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
     { m:"X-Trail 2014-2019",     r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
-    { m:"Note 2013-2019",        r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-  ],
-  "Honda": [
-    { m:"City 2012-2019",        r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-    { m:"Civic 2012-2015",       r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Civic 2016-2021",       r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Accord 2013-2017",      r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"CR-V 2012-2018",        r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
-    { m:"Fit/Jazz 2009-2019",    r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-    { m:"HR-V 2015-2021",        r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-  ],
-  "Chevrolet": [
-    { m:"Aveo 2011-2017",        r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-    { m:"Spark 2010-2019",       r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-    { m:"Cruze 2011-2016",       r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Equinox 2016-2021",     r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
-    { m:"Captiva 2012-2017",     r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
-    { m:"Trax 2015-2020",        r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"Onix 2020-2023",        r:14.5, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-  ],
-  "Suzuki": [
-    { m:"Swift 2012-2019",       r:14.0, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-    { m:"Celerio 2014-2019",     r:15.3, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-    { m:"Ciaz 2014-2019",        r:14.0, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-    { m:"Vitara 2015-2020",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"Ertiga 2013-2019",      r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-  ],
-  "Mitsubishi": [
-    { m:"Lancer 2008-2016",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Outlander 2013-2019",   r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
-    { m:"ASX/RVR 2013-2019",     r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"Galant 2004-2012",      r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"Mirage 2013-2020",      r:15.3, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-  ],
-  "Daihatsu": [
-    { m:"Mira/Cuore 2012-2018",  r:17.0, ajGLP:0.82, ajGasoil:0.96, d:1.5 },
-    { m:"Terios 2010-2017",      r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Boon/Materia",          r:15.3, ajGLP:0.82, ajGasoil:0.96, d:1.8 },
-  ],
-  "Mazda": [
-    { m:"Mazda 3 2010-2013",     r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Mazda 3 2014-2019",     r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Mazda 6 2013-2018",     r:11.0, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"CX-5 2013-2019",        r:10.2, ajGLP:0.82, ajGasoil:0.96, d:2.8 },
-  ],
-  "Ford": [
-    { m:"Fiesta 2011-2018",      r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-    { m:"Focus 2012-2018",       r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Fusion 2013-2019",      r:10.6, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-    { m:"EcoSport 2014-2019",    r:11.5, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
-  ],
-  "Volkswagen": [
-    { m:"Gol 2010-2016",         r:12.3, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-    { m:"Jetta 2011-2019",       r:11.9, ajGLP:0.82, ajGasoil:0.96, d:2.2 },
-    { m:"Polo 2012-2019",        r:13.2, ajGLP:0.82, ajGasoil:0.96, d:2.0 },
-    { m:"Tiguan 2012-2019",      r:9.8,  ajGLP:0.82, ajGasoil:0.96, d:2.8 },
   ],
   "Otro": [
     { m:"Ingresar datos manualmente", r:10.0, ajGLP:0.82, ajGasoil:0.96, d:2.5 },
@@ -482,32 +454,52 @@ const PEAJES = [
   { o:['la romana','romana'], d:['punta cana','bavaro','bavar','higuey','higue'], p:200 },
 ];
 
+// ── OPTIMIZACIÓN: CACHÉ LOCAL EN MEMORIA ───────────────────────────────────
+const CACHE_BUSQUEDA = {};
+const CACHE_RUTAS = {};
+
 // ── CONFIG ACTIVA ──────────────────────────────────────────────────────────
 let CFG = {
   rendKmL: 7.7, precioLitro: 137.2/3.785, desgKm: 2.5,
-  comUber: 0.27, baseUber: 40, kmUber: 28, minUber: 8,
+  comUber: 0.27, comParticular: 0.0, baseUber: 40, kmUber: 28, minUber: 8,
   combustible: 'GLP',
   vehiculo: 'Hyundai Sonata N20 2011-2014',
+  metaDiaria: 3000,
   precios: { glp:137.20, regular:310.50, premium:341.10, gasoil:262.80 }
 };
 
-let combActual = 'GLP';
-let vehiculoActual = null;
 let pCalc = 'uber', pReg = 'uber';
 let timers = {};
+let activeAbortControllers = {};
 let coords = { c:{origen:null,destino:null}, r:{origen:null,destino:null} };
 let viajes = [];
 
-// ── PERSISTENCIA ───────────────────────────────────────────────────────────
+// ── PERSISTENCIA Y FIX DE CICLO DE JORNADA (Nocturno Protegido) ──────────────
 function cargarStorage() {
   try {
     const cfg = JSON.parse(localStorage.getItem('cfg') || 'null');
-    if (cfg) { CFG = {...CFG, ...cfg}; combActual = cfg.combustible || 'GLP'; }
+    if (cfg) { 
+      CFG = {...CFG, ...cfg}; 
+      if (!CFG.metaDiaria) CFG.metaDiaria = 3000;
+    }
+    document.getElementById('meta-input').value = CFG.metaDiaria;
+    
     const saved = JSON.parse(localStorage.getItem('v') || '[]');
-    const f = localStorage.getItem('f');
-    const hoy = new Date().toDateString();
-    viajes = f === hoy ? saved : [];
-    if (f !== hoy) { localStorage.setItem('v','[]'); localStorage.setItem('f',hoy); }
+    
+    if (saved.length > 0) {
+      const ultimoTimestamp = saved[saved.length - 1].id;
+      const horasTranscurridas = (Date.now() - ultimoTimestamp) / (1000 * 60 * 60);
+      
+      // FIX REALISTA: Solo limpia si han pasado más de 14 horas de inactividad absoluta.
+      if (horasTranscurridas > 14) {
+        viajes = [];
+        localStorage.setItem('v', '[]');
+      } else {
+        viajes = saved;
+      }
+    } else {
+      viajes = [];
+    }
   } catch(e) {}
 }
 cargarStorage();
@@ -557,24 +549,33 @@ function tab(id) {
   document.querySelectorAll('.pantalla').forEach(p=>p.classList.remove('visible'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('visible');
-  ['calculadora','registrar','resumen'].forEach((n,i)=>{
-    if(n===id) document.querySelectorAll('.tab')[i].classList.add('active');
-  });
+  
+  const indices = {'calculadora':0, 'registrar':1, 'resumen':2, 'meta':3};
+  document.querySelectorAll('.tab')[indices[id]].classList.add('active');
+  
   if(id==='resumen') renderResumen();
+  if(id==='meta') actualizarMetaDashboard();
 }
 
-// ── PLATAFORMA ─────────────────────────────────────────────────────────────
+// ── PLATAFORMA (Selector de 3 vías de triple estado) ──────────────────────
 function setPlat(ctx,p) {
   if(ctx==='calc') {
     pCalc=p;
     document.getElementById('btn-uber').classList.toggle('active',p==='uber');
     document.getElementById('btn-indrive').classList.toggle('active',p==='indrive');
+    document.getElementById('btn-particular').classList.toggle('active',p==='particular');
     document.getElementById('campo-surge').style.display=p==='uber'?'block':'none';
     document.getElementById('resultado').classList.remove('visible');
   } else {
     pReg=p;
     document.getElementById('rbtn-uber').classList.toggle('active',p==='uber');
     document.getElementById('rbtn-indrive').classList.toggle('active',p==='indrive');
+    document.getElementById('rbtn-particular').classList.toggle('active',p==='particular');
+    
+    const lblPrecio = document.getElementById('lbl-precio-cobrado');
+    if(p==='uber') lblPrecio.textContent = "Precio Bruto App (RD$)";
+    else if(p==='indrive') lblPrecio.textContent = "Precio Ofertado Pasajero (RD$)";
+    else lblPrecio.textContent = "Precio Neto Particular acordado (RD$)";
   }
 }
 
@@ -613,42 +614,80 @@ function mostrarPeaje(ctx,o,d) {
   }
 }
 
-// ── AUTOCOMPLETE ───────────────────────────────────────────────────────────
-function cerrarDespues(id) { setTimeout(()=>document.getElementById(id).classList.remove('visible'),250); }
+// ── AUTOCOMPLETE OPTIMIZADO (Rate Limit Protection & Cache) ─────────────────
+function interceptarCierreDropdown(ddId) {
+  // Solución móvil robusta con pointerdown directo para evitar bugs de hilos de ejecución diferidos
+  document.addEventListener('pointerdown', function handler(e) {
+    const dd = document.getElementById(ddId);
+    if (dd && !dd.contains(e.target)) {
+      dd.classList.remove('visible');
+      document.removeEventListener('pointerdown', handler);
+    }
+  });
+}
 
 async function buscar(input,ddId,ctx,esOrigen) {
   const q=input.value.trim();
   const dd=document.getElementById(ddId);
-  if(q.length<2){dd.classList.remove('visible');return;}
+  if(q.length < 3){dd.classList.remove('visible');return;}
+  
+  // Rendimiento: Retorno de caché instantáneo
+  if(CACHE_BUSQUEDA[normStr(q)]) {
+    renderDropdownItems(CACHE_BUSQUEDA[normStr(q)], dd, input.id, ddId, ctx, esOrigen);
+    return;
+  }
+
   clearTimeout(timers[ddId]);
+  if(activeAbortControllers[ddId]) activeAbortControllers[ddId].abort();
+
   timers[ddId]=setTimeout(async()=>{
     dd.innerHTML='<div class="drop-estado">🔍 Buscando...</div>';
     dd.classList.add('visible');
+    interceptarCierreDropdown(ddId);
+
+    const controller = new AbortController();
+    activeAbortControllers[ddId] = controller;
+
     try {
-      const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=do&format=json&addressdetails=1&limit=6&accept-language=es`;
-      const res=await fetch(url,{headers:{'Accept':'application/json'}});
-      if(!res.ok) throw new Error('HTTP '+res.status);
+      const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=do&format=json&addressdetails=1&limit=5&accept-language=es`;
+      
+      // Ingeniería de Resiliencia: Timeout de red forzado a 4.5 segundos
+      const timeoutId = setTimeout(() => controller.abort(), 4500);
+      const res=await fetch(url,{headers:{'Accept':'application/json'}, signal: controller.signal});
+      clearTimeout(timeoutId);
+
+      if(!res.ok) throw new Error();
       const data=await res.json();
+      
       if(!Array.isArray(data)||!data.length){
-        dd.innerHTML='<div class="drop-estado">❌ Sin resultados — agrega la ciudad<br><small>Ej: "Miramar Santo Domingo"</small></div>';
+        dd.innerHTML='<div class="drop-estado">❌ Sin resultados<br><small>Agrega la ciudad. Ej: "Miramar SD"</small></div>';
         return;
       }
-      dd.innerHTML=data.map(item=>{
-        const a=item.address||{};
-        const lat=parseFloat(item.lat), lon=parseFloat(item.lon);
-        const nombre=a.neighbourhood||a.suburb||a.road||a.amenity||a.shop||a.building||item.display_name.split(',')[0];
-        const sub=[a.city||a.town||a.village||a.county,a.state].filter(Boolean).join(', ');
-        const nS=nombre.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        const sS=sub.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return `<div class="drop-item" onmousedown="elegir('${input.id}','${ddId}','${ctx}',${esOrigen},${lat},${lon},'${nS}','${sS}')">
-          <div class="drop-nombre">${nombre}</div>
-          ${sub?`<div class="drop-sub">${sub}</div>`:''}
-        </div>`;
-      }).join('');
+
+      CACHE_BUSQUEDA[normStr(q)] = data; // Guardar en caché
+      renderDropdownItems(data, dd, input.id, ddId, ctx, esOrigen);
+
     } catch(err) {
-      dd.innerHTML='<div class="drop-estado">⚠️ Error de conexión — escribe km manualmente</div>';
+      if(err.name !== 'AbortError') {
+        dd.innerHTML='<div class="drop-estado">⚠️ Error o mala señal — escribe km manualmente</div>';
+      }
     }
-  },300);
+  }, 500); // 500ms Debounce táctico para preservar rate limit
+}
+
+function renderDropdownItems(data, dd, inputId, ddId, ctx, esOrigen) {
+  dd.innerHTML=data.map(item=>{
+    const a=item.address||{};
+    const lat=parseFloat(item.lat), lon=parseFloat(item.lon);
+    const nombre=a.neighbourhood||a.suburb||a.road||a.amenity||a.shop||a.building||item.display_name.split(',')[0];
+    const sub=[a.city||a.town||a.village||a.county,a.state].filter(Boolean).join(', ');
+    const nS=nombre.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const sS=sub.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="drop-item" onmousedown="elegir('${inputId}','${ddId}','${ctx}',${esOrigen},${lat},${lon},'${nS}','${sS}')">
+      <div class="drop-nombre">${nombre}</div>
+      ${sub?`<div class="drop-sub">${sub}</div>`:''}
+    </div>`;
+  }).join('');
 }
 
 function elegir(inputId,ddId,ctx,esOrigen,lat,lon,nombre,ciudad) {
@@ -666,30 +705,41 @@ function elegir(inputId,ddId,ctx,esOrigen,lat,lon,nombre,ciudad) {
 async function calcRuta(ctx) {
   const c=coords[ctx];
   const badge=document.getElementById('badge-'+ctx);
+  const cacheKey = `${c.origen.lat},${c.origen.lon}_${c.destino.lat},${c.destino.lon}`;
+
+  if(CACHE_RUTAS[cacheKey]) {
+    inyectarRuta(CACHE_RUTAS[cacheKey], ctx, badge);
+    return;
+  }
+
   badge.textContent='🗺️ Calculando ruta...';
   badge.classList.add('visible');
   try {
     const url=`https://router.project-osrm.org/route/v1/driving/${c.origen.lon},${c.origen.lat};${c.destino.lon},${c.destino.lat}?overview=false`;
-    const res=await fetch(url);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const res=await fetch(url, {signal: controller.signal});
+    clearTimeout(timeoutId);
+    
     const data=await res.json();
     if(data.code==='Ok') {
-      const km=(data.routes[0].distance/1000).toFixed(1);
-      const min=Math.round(data.routes[0].duration/60);
-      badge.textContent=`🗺️ ${km} km · ~${fmtMin(min)} (ruta real)`;
-      if(ctx==='c'){
-        document.getElementById('c-km').value=km;
-        document.getElementById('c-min').value=min;
-        document.getElementById('c-min-fmt').textContent=fmtMin(min);
-      } else {
-        document.getElementById('r-km').value=km;
-        document.getElementById('r-min').value=min;
-        document.getElementById('r-min-fmt').textContent=fmtMin(min);
-      }
+      CACHE_RUTAS[cacheKey] = data; // Almacenamiento en caché de la ruta
+      inyectarRuta(data, ctx, badge);
     } else { badge.textContent='⚠️ Ruta no encontrada — ajusta km'; }
   } catch(e) { badge.textContent='⚠️ Sin conexión — ajusta km'; }
 }
 
-// ── CALCULAR ───────────────────────────────────────────────────────────────
+function inyectarRuta(data, ctx, badge) {
+  const km=(data.routes[0].distance/1000).toFixed(1);
+  const min=Math.round(data.routes[0].duration/60);
+  badge.textContent=`🗺️ ${km} km · ~${fmtMin(min)} (ruta real)`;
+  const prefix = ctx === 'c' ? 'c-' : 'r-';
+  document.getElementById(prefix+'km').value=km;
+  document.getElementById(prefix+'min').value=min;
+  document.getElementById(prefix+'min-fmt').textContent=fmtMin(min);
+}
+
+// ── CALCULAR PRECIOS (Soporte Particular 0% Comisión) ───────────────────────
 function calcular() {
   const km=parseFloat(document.getElementById('c-km').value);
   const min=parseFloat(document.getElementById('c-min').value);
@@ -700,6 +750,7 @@ function calcular() {
   const peaje=parseFloat(document.getElementById('c-peaje').value)||0;
   const costo=gas+desg+peaje;
   let alerta='';
+  
   if(pCalc==='uber') {
     const surge=parseFloat(document.getElementById('surge').value);
     const tarifa=(CFG.baseUber+km*CFG.kmUber+min*CFG.minUber)*surge;
@@ -711,18 +762,28 @@ function calcular() {
     document.getElementById('r-neto').textContent=`RD$${Math.round(neto)}`;
     alerta=neto>0?`<div class="alerta av">✅ Rentable. Ganancia neta: <strong>RD$${Math.round(neto)}</strong></div>`
       :`<div class="alerta ar">⚠️ Margen ajustado. Costo real: RD$${Math.round(costo)}.</div>`;
-  } else {
+  } else if(pCalc==='indrive') {
     const mercado=CFG.baseUber+km*CFG.kmUber+min*CFG.minUber;
     const minimo=Math.max(mercado*(1-CFG.comUber),costo*1.3);
     const objetivo=mercado;
     document.getElementById('r-tarifa').textContent=`RD$${Math.round(minimo)}`;
-    document.getElementById('r-tarifa-lbl').textContent='Precio mínimo — no bajes de aquí';
+    document.getElementById('r-tarifa-lbl').textContent='Precio mínimo inDrive — no bajes de aquí';
     document.getElementById('r-obj').textContent=`RD$${Math.round(objetivo)}`;
     document.getElementById('r-obj-lbl').textContent='✦ Precio objetivo (pide esto primero)';
     document.getElementById('r-neto').textContent=`RD$${Math.round(objetivo-costo)}`;
     alerta=objetivo>600?`<div class="alerta aa">💡 Viaje largo. No bajes de RD$${Math.round(minimo)}.</div>`
       :`<div class="alerta av">✅ Pide RD$${Math.round(objetivo)}. Cede hasta RD$${Math.round(minimo)} máximo.</div>`;
+  } else {
+    // PARTICULAR (0% Comisión)
+    const netoObjetivo = costo * 1.5; // Margen saludable del 50% sobre el costo operativo
+    document.getElementById('r-tarifa').textContent=`RD$${Math.round(costo)}`;
+    document.getElementById('r-tarifa-lbl').textContent='Costo operativo de salida (Punto de quiebre)';
+    document.getElementById('r-obj').textContent=`RD$${Math.round(netoObjetivo)}`;
+    document.getElementById('r-obj-lbl').textContent='✦ Precio sugerido Particular (0% Comisión)';
+    document.getElementById('r-neto').textContent=`RD$${Math.round(netoObjetivo-costo)}`;
+    alerta=`<div class="alerta av">👤 Viaje privado. Cobras limpio. Margen sugerido: <strong>RD$${Math.round(netoObjetivo-costo)}</strong></div>`;
   }
+  
   document.getElementById('r-gas').textContent=`RD$${Math.round(gas)}`;
   document.getElementById('r-desg').textContent=`RD$${Math.round(desg)}`;
   document.getElementById('r-peaje-lbl').textContent=peaje>0?`RD$${Math.round(peaje)}`:'No detectado';
@@ -731,7 +792,7 @@ function calcular() {
   document.getElementById('resultado').classList.add('visible');
 }
 
-// ── GUARDAR VIAJE ──────────────────────────────────────────────────────────
+// ── GUARDAR VIAJE REAL ──────────────────────────────────────────────────────
 function guardar() {
   const origen=document.getElementById('r-origen').value.trim();
   const destino=document.getElementById('r-destino').value.trim();
@@ -745,11 +806,15 @@ function guardar() {
   const peaje=parseFloat(document.getElementById('r-peaje').value)||0;
   const gas=(km/CFG.rendKmL)*CFG.precioLitro;
   const costo=gas+km*CFG.desgKm+peaje;
-  const precioReal=pReg==='uber'?precio*(1-CFG.comUber):precio;
+  
+  // Modificación Particular: comisión 0%
+  const precioReal= pReg==='uber' ? precio*(1-CFG.comUber) : precio;
   const neto=Math.round(precioReal-costo);
   const hora=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});
+  
   viajes.push({id:Date.now(),plat:pReg,origen,destino,km,precio,duracion,peaje,costo:Math.round(costo),neto,hora});
-  try{localStorage.setItem('v',JSON.stringify(viajes));localStorage.setItem('f',new Date().toDateString());}catch(e){}
+  try{localStorage.setItem('v',JSON.stringify(viajes));}catch(e){}
+  
   ['r-origen','r-destino','r-km','r-precio','r-min'].forEach(i=>document.getElementById(i).value='');
   document.getElementById('r-peaje').value=0;
   document.getElementById('r-min-fmt').textContent='';
@@ -760,10 +825,10 @@ function guardar() {
   tab('resumen');
 }
 
-// ── RESUMEN ────────────────────────────────────────────────────────────────
+// ── DASHBOARD DE RESUMEN METRIFICADO ─────────────────────────────────────────
 function renderResumen() {
   if(!viajes.length){
-    document.getElementById('lista').innerHTML='<div class="empty"><div class="empty-i">🚗</div><p>Sin viajes hoy.<br>Ve a <strong>Registrar</strong>.</p></div>';
+    document.getElementById('lista').innerHTML='<div class="empty"><div class="empty-i">🚗</div><p>Sin viajes guardados.<br>Ve a la pestaña <strong>Registrar</strong>.</p></div>';
     ['s-viajes','s-bruto','s-gastos','s-neto','s-hora'].forEach(id=>document.getElementById(id).textContent=id==='s-viajes'?'0':'RD$0');
     document.getElementById('s-km').textContent='0 km';
     return;
@@ -772,18 +837,36 @@ function renderResumen() {
   const gastos=viajes.reduce((s,v)=>s+v.costo,0);
   const neto=viajes.reduce((s,v)=>s+v.neto,0);
   const km=viajes.reduce((s,v)=>s+v.km,0);
-  const min=viajes.reduce((s,v)=>s+v.duracion,0);
+  
+  // FIX CRÍTICO TIMESTAMP REAL RD$/HORA:
+  let horasCalculadas = 0;
+  if (viajes.length > 1) {
+    const primerViajeTime = viajes[0].id;
+    const ultimoViajeTime = viajes[viajes.length - 1].id;
+    const duracionUltimoViajeMs = viajes[viajes.length - 1].duracion * 60 * 1000;
+    // Intervalo absoluto real de trabajo continuo en la calle
+    horasCalculadas = ((ultimoViajeTime + duracionUltimoViajeMs) - primerViajeTime) / (1000 * 60 * 60);
+  }
+  if (horasCalculadas < 0.5) {
+    // Respaldo de seguridad si solo hay un viaje o el intervalo es ridículamente corto
+    const totalMinutosAcumulados = viajes.reduce((s,v)=>s+v.duracion,0);
+    horasCalculadas = totalMinutosAcumulados / 60;
+  }
+
   document.getElementById('s-viajes').textContent=viajes.length;
   document.getElementById('s-bruto').textContent=`RD$${Math.round(bruto)}`;
   document.getElementById('s-gastos').textContent=`RD$${Math.round(gastos)}`;
   document.getElementById('s-neto').textContent=`RD$${Math.round(neto)}`;
   document.getElementById('s-neto').style.color=neto>=0?'var(--verde)':'var(--rojo)';
   document.getElementById('s-km').textContent=`${km.toFixed(1)} km`;
-  document.getElementById('s-hora').textContent=min>0?`RD$${Math.round(neto/min*60)}`:'RD$0';
+  
+  // Inyección del Fix Real por hora en el dashboard global
+  document.getElementById('s-hora').textContent=horasCalculadas>0?`RD$${Math.round(neto/horasCalculadas)}/h`:'RD$0';
+  
   document.getElementById('lista').innerHTML=viajes.slice().reverse().map(v=>`
     <div class="vitem">
       <div>
-        <div class="vplat ${v.plat}">${v.plat==='uber'?'🚗 Uber':'🟢 inDrive'} · ${v.hora}</div>
+        <div class="vplat ${v.plat}">${v.plat==='uber'?'🚗 Uber': v.plat==='indrive'?'🟢 inDrive':'👤 Particular'} · ${v.hora}</div>
         <div class="vruta">${v.origen.split(',')[0]} → ${v.destino.split(',')[0]}</div>
         <div class="vmeta">${v.km} km · ${fmtMin(v.duracion)}</div>
       </div>
@@ -795,14 +878,88 @@ function renderResumen() {
 }
 
 function limpiar() {
-  if(confirm('¿Limpiar todos los viajes de hoy?')){
+  if(confirm('¿Deseas resetear el panel y limpiar todos los datos guardados?')){
     viajes=[];
     try{localStorage.setItem('v','[]');}catch(e){}
     renderResumen();
   }
 }
 
-// ── CONFIG ─────────────────────────────────────────────────────────────────
+// ── PESTAÑA NUEVA: CONTROL DE METAS & EXPORTACIÓN EXCLUSIVA ──────────────────
+function actualizarMetaDashboard() {
+  const metaVal = parseFloat(document.getElementById('meta-input').value) || 3000;
+  CFG.metaDiaria = metaVal;
+  guardarCFG();
+
+  const brutoTotal = viajes.reduce((s,v)=>s+v.precio,0);
+  const netoTotal = viajes.reduce((s,v)=>s+v.neto,0);
+  
+  // Cálculo porcentual basado en ingresos Brutos conseguidos frente a la meta
+  let porc = Math.min(Math.round((brutoTotal / metaVal) * 100), 100);
+  if(isNaN(porc)) porc = 0;
+  
+  document.getElementById('meta-barra').style.width = porc + "%";
+  document.getElementById('meta-porcentaje').textContent = porc + "% Completado";
+  
+  const faltante = Math.max(metaVal - brutoTotal, 0);
+  document.getElementById('m-faltante').textContent = `RD$${Math.round(faltante)}`;
+  document.getElementById('m-faltante').style.color = faltante > 0 ? 'var(--acento)' : 'var(--verde)';
+
+  // Metrificación del tiempo con precisión de timestamps
+  const totalMinutosActivos = viajes.reduce((s,v)=>s+v.duracion,0);
+  document.getElementById('m-horas-activas').textContent = (totalMinutosActivos/60).toFixed(1) + "h";
+
+  let horasTurno = 0;
+  if(viajes.length > 0) {
+    const tiempoPrimerViaje = viajes[0].id;
+    const tiempoUltimoViaje = viajes[viajes.length - 1].id;
+    const duracionUltimoViajeMs = viajes[viajes.length - 1].duracion * 60 * 1000;
+    horasTurno = ((tiempoUltimoViaje + duracionUltimoViajeMs) - tiempoPrimerViaje) / (1000 * 60 * 60);
+  }
+  if(horasTurno < (totalMinutosActivos/60)) horasTurno = totalMinutosActivos / 60;
+  document.getElementById('m-horas-turno').textContent = horasTurno.toFixed(1) + "h";
+
+  // Rendimiento financiero indexado al Fix de Tiempo Real
+  const brutoPorHora = horasTurno > 0 ? Math.round(brutoTotal / horasTurno) : 0;
+  const netoPorHora = horasTurno > 0 ? Math.round(netoTotal / horasTurno) : 0;
+
+  document.getElementById('m-bruto-hora').textContent = `RD$${brutoPorHora}/h`;
+  document.getElementById('m-neto-hora').textContent = `RD$${netoPorHora}/h`;
+}
+
+function exportarResumenTexto() {
+  if(!viajes.length) { alert('No tienes datos guardados hoy para exportar.'); return; }
+  
+  const bruto = viajes.reduce((s,v)=>s+v.precio,0);
+  const gastos = viajes.reduce((s,v)=>s+v.costo,0);
+  const neto = viajes.reduce((s,v)=>s+v.neto,0);
+  const km = viajes.reduce((s,v)=>s+v.km,0);
+  
+  let uCount = 0, iCount = 0, pCount = 0;
+  viajes.forEach(v => { if(v.plat==='uber') uCount++; else if(v.plat==='indrive') iCount++; else pCount++; });
+
+  const txt = `📊 *MiRuta — Resumen Diario*\n` +
+              `🗓️ Fecha: ${new Date().toLocaleDateString('es-DO')}\n` +
+              `🚗 Vehículo: ${CFG.vehiculo}\n` +
+              `----------------------------------\n` +
+              `🏁 *Viajes Totales:* ${viajes.length}\n` +
+              `   • Uber: ${uCount} | inDrive: ${iCount} | Part: ${pCount}\n` +
+              `🛣️ *Distancia:* ${km.toFixed(1)} km\n` +
+              `💰 *Ingreso Bruto:* RD$${Math.round(bruto)}\n` +
+              `⛽ *Costos Operativos:* RD$${Math.round(gastos)}\n` +
+              `💵 *Ganancia Neta:* RD$${Math.round(neto)}\n` +
+              `🎯 *Meta Lograda:* ${document.getElementById('meta-porcentaje').textContent}\n` +
+              `----------------------------------\n` +
+              `⚡ _Generado automáticamente desde MiRuta_`;
+
+  navigator.clipboard.writeText(txt).then(() => {
+    alert('📋 ¡Resumen estructurado copiado al portapapeles! Listo para pegar en WhatsApp.');
+  }).catch(() => {
+    alert('No se pudo copiar automáticamente. Aquí tienes tu texto:\n\n' + txt);
+  });
+}
+
+// ── CONFIG INTERNA DRAWER ──────────────────────────────────────────────────
 function initConfig() {
   const sel=document.getElementById('sel-marca');
   if(sel.options.length<=1) {
@@ -842,11 +999,11 @@ async function actualizarPrecios() {
   badge.textContent='🔄 Consultando MICM...';
   try {
     const res=await fetch('https://api.digital.gob.do/v1/fuels',{headers:{'Accept':'application/json'}});
-    if(!res.ok) throw new Error('HTTP '+res.status);
+    if(!res.ok) throw new Error();
     const data=await res.json();
     const find=(kw)=>{const i=data.find(d=>kw.some(k=>d.name&&d.name.toLowerCase().includes(k)));return i?parseFloat(i.price||i.precio||0):null;};
     const glp=find(['glp','gas licuado']); const regular=find(['regular']); const premium=find(['premium']); const gasoil=find(['gasoil','gasoíl']);
-    if(!glp&&!regular) throw new Error('Formato inesperado');
+    if(!glp&&!regular) throw new Error();
     if(glp) CFG.precios.glp=glp;
     if(regular) CFG.precios.regular=regular;
     if(premium) CFG.precios.premium=premium;
@@ -878,7 +1035,7 @@ async function actualizarPrecios() {
         badge.className='badge-config visible badge-ok';
         badge.textContent=`✅ Precios del MICM — ${hoy}`;
         actualizarHeader();
-      } else throw new Error('No se pudo extraer');
+      } else throw new Error();
     } catch(e2){
       badge.className='badge-config visible badge-error';
       badge.textContent='⚠️ Sin conexión al MICM. Actualiza el GLP manualmente.';
@@ -903,10 +1060,10 @@ function actualizarModelos() {
   sel.disabled=!marca;
   if(!marca) return;
   DB[marca].forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.m;sel.appendChild(o);});
-  vehiculoActual=null;
   document.getElementById('ficha').classList.remove('visible');
 }
 
+let combActual = 'GLP';
 function setComb(tipo) { combActual=tipo; actualizarCombBtns(); actualizarFicha(); }
 function actualizarCombBtns() {
   document.getElementById('cb-glp').classList.toggle('active',combActual==='GLP');
@@ -918,7 +1075,7 @@ function actualizarFicha() {
   const marca=document.getElementById('sel-marca').value;
   const idx=document.getElementById('sel-modelo').value;
   if(!marca||idx==='') return;
-  vehiculoActual={...DB[marca][parseInt(idx)],marca};
+  const vehiculoActual={...DB[marca][parseInt(idx)],marca};
   const v=vehiculoActual;
   let rend=combActual==='GLP'?v.r*v.ajGLP:combActual==='Gasoil'?v.r*v.ajGasoil:v.r;
   const precio=combActual==='GLP'?CFG.precios.glp:combActual==='Gasolina'?CFG.precios.regular:CFG.precios.gasoil;
@@ -935,11 +1092,14 @@ function actualizarFicha() {
 }
 
 function recalcularRendimiento() {
-  if(!vehiculoActual) return;
+  const marca=document.getElementById('sel-marca').value;
+  const idx=document.getElementById('sel-modelo').value;
+  if(!marca||idx==='') return;
+  const vehiculoActual={...DB[marca][parseInt(idx)],marca};
   const v=vehiculoActual;
-  let rend=combActual==='GLP'?v.r*v.ajGLP:combActual==='Gasoil'?v.r*v.ajGasoil:v.r;
+  let rend=CFG.combustible==='GLP'?v.r*v.ajGLP:CFG.combustible==='Gasoil'?v.r*v.ajGasoil:v.r;
   CFG.rendKmL=rend;
-  const precio=combActual==='GLP'?CFG.precios.glp:combActual==='Gasolina'?CFG.precios.regular:CFG.precios.gasoil;
+  const precio=CFG.combustible==='GLP'?CFG.precios.glp:CFG.combustible==='Gasolina'?CFG.precios.regular:CFG.precios.gasoil;
   CFG.precioLitro=precio/3.785;
   CFG.desgKm=v.d;
 }
@@ -948,10 +1108,10 @@ function guardarConfig() {
   const marca=document.getElementById('sel-marca').value;
   const idx=document.getElementById('sel-modelo').value;
   if(!marca||idx===''){alert('Selecciona marca y modelo');return;}
-  vehiculoActual={...DB[marca][parseInt(idx)],marca};
-  recalcularRendimiento();
+  const vehiculoActual={...DB[marca][parseInt(idx)],marca};
   CFG.combustible=combActual;
   CFG.vehiculo=`${marca} ${vehiculoActual.m}`;
+  recalcularRendimiento();
   guardarCFG();
   document.getElementById('badge-cfg').className='badge-config visible badge-ok';
   document.getElementById('badge-cfg').textContent=`✅ ${CFG.vehiculo} · ${combActual} guardado`;
@@ -965,13 +1125,14 @@ function guardarCFG() {
     combustible:CFG.combustible, vehiculo:CFG.vehiculo,
     marca:document.getElementById('sel-marca').value,
     modeloIdx:document.getElementById('sel-modelo').value,
-    precios:CFG.precios
+    metaDiaria:CFG.metaDiaria, precios:CFG.precios
   };
   try{localStorage.setItem('cfg',JSON.stringify(toSave));}catch(e){}
 }
 
-// Init
+// Inicialización de flujos por defecto
 setPlat('calc','uber');
+setPlat('reg','uber');
 </script>
 </body>
 </html>
